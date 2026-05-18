@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="HPP JB"/>
+<meta name="theme-color" content="#4285F4"/>
+<title>HPP Jaya Berkah</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234285F4'/><text y='78' x='8' font-size='72' font-weight='900' fill='white' font-family='Arial Black'>JB</text></svg>"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#F0F4FF;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+#root{min-height:100vh}
+#err{display:none;position:fixed;inset:0;background:#fff;padding:20px;font-family:monospace;font-size:11px;overflow:auto;z-index:9999;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="err"></div>
+<script>window.onerror=function(msg,src,line,col,err){var e=document.getElementById('err');e.style.display='block';e.textContent='ERROR: '+msg+'\nLine: '+line+'\n'+(err?err.stack:'');}</script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script>if(!window.React){document.getElementById('err').style.display='block';document.getElementById('err').textContent='Tidak ada koneksi. Refresh setelah internet aktif.';}</script>
+<script>
+if(window.React&&window.ReactDOM){
+const {useState,useMemo}=React;
+try{
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __objRest = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+
+const IconPaving = ({ size = 28, style = {} }) => /* @__PURE__ */ React.createElement(
+  "img",
+  {
+    src: "data:image/jpeg;base64,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",
+    width: size,
+    height: size,
+    style: __spreadValues({ objectFit: "contain", borderRadius: size > 30 ? 10 : 6 }, style),
+    alt: "Paving Block"
+  }
+);
+const IconBuis = ({ size = 28, style = {} }) => /* @__PURE__ */ React.createElement(
+  "img",
+  {
+    src: "data:image/jpeg;base64,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",
+    width: size,
+    height: size,
+    style: __spreadValues({ objectFit: "contain", borderRadius: size > 30 ? 10 : 6 }, style),
+    alt: "Buis Beton"
+  }
+);
+const uid = () => Math.random().toString(36).slice(2, 9);
+const nv = (v) => parseFloat(v) || 0;
+const rp = (v) => "Rp " + Math.round(v || 0).toLocaleString("id-ID");
+const SATUAN = ["kg", "gram", "liter", "ml", "m\xB3", "sak", "ember", "pcs", "lbr", "karung", "ton"];
+const INIT_BAHAN = [
+  { id: "b1", nama: "Semen", satuan: "kg", harga: 1100, qty: 40, kat: "utama", untuk: "semua", on: true, ket: "1 sak 40kg" },
+  { id: "b2", nama: "Pasir Muntilan", satuan: "kg", harga: 280, qty: 92, kat: "utama", untuk: "paving", on: true, ket: "4 ember \xD7 23kg" },
+  { id: "b3", nama: "Abu Batu", satuan: "kg", harga: 130, qty: 96, kat: "utama", untuk: "paving", on: true, ket: "4 ember \xD7 24kg" },
+  { id: "b4", nama: "Batu Kali/Krosok", satuan: "kg", harga: 220, qty: 75, kat: "utama", untuk: "buis", on: true, ket: "Untuk buis beton" },
+  { id: "b5", nama: "Air", satuan: "liter", harga: 0, qty: 30, kat: "utama", untuk: "semua", on: false, ket: "Isi 0 jika gratis" },
+  { id: "b6", nama: "Bubuk Pewarna", satuan: "kg", harga: 8e3, qty: 0, kat: "tambahan", untuk: "paving", on: false, ket: "Aktifkan jika pakai" },
+  { id: "b7", nama: "Additive Beton", satuan: "liter", harga: 15e3, qty: 0, kat: "tambahan", untuk: "semua", on: false, ket: "Plasticizer" },
+  { id: "b8", nama: "Silika Fume", satuan: "kg", harga: 5e3, qty: 0, kat: "tambahan", untuk: "semua", on: false, ket: "Penguat mutu" },
+  { id: "b9", nama: "Plastik Alas", satuan: "lbr", harga: 500, qty: 2, kat: "pendukung", untuk: "paving", on: true, ket: "Alas cetak" },
+  { id: "b10", nama: "Palet Kayu", satuan: "pcs", harga: 15e3, qty: 0.1, kat: "pendukung", untuk: "paving", on: true, ket: "Penyangga" },
+  { id: "b11", nama: "Solar Molen", satuan: "liter", harga: 12e3, qty: 0.2, kat: "pendukung", untuk: "semua", on: true, ket: "BBM mesin" },
+  { id: "b12", nama: "Oli Mesin", satuan: "liter", harga: 25e3, qty: 0, kat: "pendukung", untuk: "semua", on: false, ket: "Perawatan" }
+];
+const INIT_PAVING = [
+  { id: uid(), g: "Bata", n: "Bata Kw2 Manual", t: "manual", m: "Kw2", p: 50, b: 100, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata Kw2 5cm", t: "5cm", m: "Kw2", p: 50, b: 120, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata Kw1 6cm", t: "6cm", m: "Kw1", p: 50, b: 123, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata K200 6cm", t: "6cm", m: "K200", p: 50, b: 123, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata K250 6cm", t: "6cm", m: "K250", p: 50, b: 123, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata K300 6cm", t: "6cm", m: "K300", p: 50, b: 123, j: "paving" },
+  { id: uid(), g: "Bata", n: "Bata K300 8cm", t: "8cm", m: "K300", p: 50, b: 153, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam Kw2 Manual", t: "manual", m: "Kw2", p: 27, b: 102, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam Kw1 Timbul", t: "motif", m: "Kw1", p: 27, b: 103, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam Kw2 4cm", t: "4cm", m: "Kw2", p: 27, b: 199, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam K200 5cm", t: "5cm", m: "K200", p: 27, b: 203, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam K200 6cm", t: "6cm", m: "K200", p: 27, b: 207, j: "paving" },
+  { id: uid(), g: "Segi Enam", n: "Segi Enam K300 6cm", t: "6cm", m: "K300", p: 27, b: 207, j: "paving" },
+  { id: uid(), g: "Ubin", n: "Ubin Besar 20x20 6cm", t: "6cm", m: "\u2014", p: 25, b: 237, j: "paving" },
+  { id: uid(), g: "Ubin", n: "Ubin Kecil 10x10 6cm", t: "6cm", m: "\u2014", p: 100, b: 62, j: "paving" },
+  { id: uid(), g: "Grassblock", n: "Grassblock", t: "8cm", m: "\u2014", p: 6, b: 1213, j: "paving" },
+  { id: uid(), g: "3 Dimensi", n: "Paving 3 Dimensi", t: "6cm", m: "\u2014", p: 33, b: 313, j: "paving" },
+  { id: uid(), g: "Cacing", n: "Paving Cacing", t: "6cm", m: "\u2014", p: 22, b: 139, j: "paving" }
+];
+const INIT_BUIS = [
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 90\xD7100", u: "\xD890\xD7100cm", b: 27e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 90\xD750", u: "\xD890\xD750cm", b: 18e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 80\xD7100", u: "\xD880\xD7100cm", b: 22e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 80\xD750", u: "\xD880\xD750cm", b: 12e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 80\xD750 Ctk.Bsr", u: "\xD880\xD750cm", b: 13e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 70\xD7100", u: "\xD870\xD7100cm", b: 18e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 70\xD750", u: "\xD870\xD750cm", b: 11150, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 60\xD7100", u: "\xD860\xD7100cm", b: 14500, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 60\xD750", u: "\xD860\xD750cm", b: 8e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 50\xD7100", u: "\xD850\xD7100cm", b: 11e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 40\xD7100", u: "\xD840\xD7100cm", b: 8e3, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 30\xD7100", u: "\xD830\xD7100cm", b: 5750, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 25\xD7100", u: "\xD825\xD7100cm", b: 4950, j: "buis" },
+  { id: uid(), g: "Buis Beton", n: "Buis Beton 20\xD7100", u: "\xD820\xD7100cm", b: 4150, j: "buis" },
+  { id: uid(), g: "Got V", n: "Got V 30\xD7100", u: "30\xD7100cm", b: 5100, j: "buis" },
+  { id: uid(), g: "Got V", n: "Got V 20\xD7100", u: "20\xD7100cm", b: 3750, j: "buis" },
+  { id: uid(), g: "Got V", n: "Got V 15\xD7100", u: "15\xD7100cm", b: 2800, j: "buis" },
+  { id: uid(), g: "Buis Belah", n: "Buis Belah 40\xD7100", u: "40\xD7100cm", b: 3900, j: "buis" },
+  { id: uid(), g: "Buis Belah", n: "Buis Belah 30\xD7100", u: "30\xD7100cm", b: 3100, j: "buis" },
+  { id: uid(), g: "Buis Belah", n: "Buis Belah 20\xD7100", u: "20\xD7100cm", b: 2300, j: "buis" },
+  { id: uid(), g: "Buis Belah", n: "Buis Belah 15\xD7100", u: "15\xD7100cm", b: 2050, j: "buis" },
+  { id: uid(), g: "Kanstin", n: "Kanstin 20\xD730\xD760", u: "20\xD730\xD760cm", b: 3300, j: "buis" },
+  { id: uid(), g: "Kanstin", n: "Kanstin 15\xD730\xD750", u: "15\xD730\xD750cm", b: 2400, j: "buis" },
+  { id: uid(), g: "Kanstin", n: "Kanstin 10\xD720\xD750", u: "10\xD720\xD750cm", b: 1400, j: "buis" },
+  { id: uid(), g: "Tutup Buis", n: "Tutup Buis 70", u: "\xD870cm", b: 4e3, j: "buis" },
+  { id: uid(), g: "Tutup Buis", n: "Tutup Buis 80", u: "\xD880cm", b: 4100, j: "buis" },
+  { id: uid(), g: "Tutup Buis", n: "Tutup Buis 90", u: "\xD890cm", b: 5e3, j: "buis" },
+  { id: uid(), g: "PAL Tanah", n: "PAL Tanah", u: "\u2014", b: 1e3, j: "buis" }
+];
+const INIT_TK = () => [
+  { id: uid(), nama: "Tukang Sortir", harga: 8e4, per: "hari", on: true, jumlahBiji: 0 },
+  { id: uid(), nama: "Pengawas Produksi", harga: 1e5, per: "hari", on: false, jumlahBiji: 0 },
+  { id: uid(), nama: "Operator Molen", harga: 9e4, per: "hari", on: false, jumlahBiji: 0 }
+];
+const INIT_OH = () => [
+  { id: uid(), nama: "Listrik Produksi", harga: 3e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Solar/BBM Mesin", harga: 3e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Air Produksi", harga: 1e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Maintenance Mesin", harga: 15e3, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Sparepart", harga: 1e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Penyusutan Mesin", harga: 2e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Penyusutan Cetakan", harga: 1e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Penyusutan Molen", harga: 8e3, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Sewa Lahan", harga: 2e4, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Kebersihan Area", harga: 5e3, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Konsumsi Pekerja", harga: 0, per: "hari", metode: "hari" },
+  { id: uid(), nama: "Administrasi", harga: 0, per: "hari", metode: "hari" }
+];
+function hitungHPPv2(bahanGlobal, qm, tkH, oh, pcsM2, margin, jenis) {
+  const hasil = nv(qm.aktual) || nv(qm.hasil) || 0;
+  if (!hasil) return null;
+  const aktifBahan = bahanGlobal.filter(
+    (b) => b.on && (b.untuk === "semua" || b.untuk === jenis)
+  );
+  const detailBahan = aktifBahan.map((b) => {
+    var _a;
+    const qty = ((_a = qm.komposisi) == null ? void 0 : _a[b.id]) !== void 0 ? nv(qm.komposisi[b.id]) : nv(b.qty);
+    const subtotal = qty * nv(b.harga);
+    return __spreadProps(__spreadValues({}, b), { qtyBatch: qty, subtotal });
+  });
+  const bUtama = detailBahan.filter((b) => b.kat === "utama");
+  const bTambahan = detailBahan.filter((b) => b.kat === "tambahan");
+  const bPendukung = detailBahan.filter((b) => b.kat === "pendukung");
+  const totalBahan = detailBahan.reduce((s, b) => s + b.subtotal, 0);
+  const totalUtama = bUtama.reduce((s, b) => s + b.subtotal, 0);
+  const totalTambahan = bTambahan.reduce((s, b) => s + b.subtotal, 0);
+  const totalPendukung = bPendukung.reduce((s, b) => s + b.subtotal, 0);
+  const tkBorPcs = nv(qm.tkBor);
+  const sortirPerBiji = nv(qm.sortirNominal) > 0 && nv(qm.sortirBiji) > 0 ? nv(qm.sortirNominal) / nv(qm.sortirBiji) : 0;
+  const tkHarianAktif = tkH.filter((t) => {
+    var _a;
+    const ovr = (_a = qm.tkOvr) == null ? void 0 : _a[t.id];
+    return ovr !== void 0 ? ovr : t.on;
+  });
+  const prodHarian = qm.prodHarian !== "" && qm.prodHarian !== void 0 && nv(qm.prodHarian) > 0 ? nv(qm.prodHarian) : nv(qm._globalProdH) || 450;
+  let tkHarPerBatch = 0;
+  tkHarianAktif.forEach((t) => {
+    var _a;
+    const h = nv(t.harga);
+    const bijioOvr = (_a = qm.tkBiji) == null ? void 0 : _a[t.id];
+    if (bijioOvr && nv(bijioOvr) > 0) {
+      const perBiji = h / nv(bijioOvr);
+      tkHarPerBatch += perBiji * hasil;
+    } else {
+      const perHari = t.per === "minggu" ? h / 6 : t.per === "bulan" ? h / 26 : h;
+      tkHarPerBatch += perHari / prodHarian * hasil;
+    }
+  });
+  const sortirBatch = sortirPerBiji * hasil;
+  const totalTKBatch = tkBorPcs * hasil + sortirBatch + tkHarPerBatch;
+  const tkBorBatch = tkBorPcs * hasil;
+  const detailOH = oh.map((o) => {
+    var _a, _b, _c, _d;
+    const h = nv(o.harga);
+    const perHari = o.per === "minggu" ? h / 6 : o.per === "bulan" ? h / 26 : h;
+    const metode = ((_b = (_a = qm.ohOvr) == null ? void 0 : _a[o.id]) == null ? void 0 : _b.metode) || o.metode || "hari";
+    let beban = 0;
+    if (metode === "hari") beban = perHari / prodHarian * hasil;
+    if (metode === "batch") beban = nv(((_d = (_c = qm.ohOvr) == null ? void 0 : _c[o.id]) == null ? void 0 : _d.nilai) || o.harga);
+    if (metode === "pcs") beban = nv(o.harga) * hasil;
+    if (metode === "m2") beban = nv(o.harga) * (hasil / pcsM2);
+    return __spreadProps(__spreadValues({}, o), { bebanBatch: beban, metodeAktif: metode });
+  });
+  const totalOHBatch = detailOH.reduce((s, o) => s + o.bebanBatch, 0);
+  const totalBatch = totalBahan + totalTKBatch + totalOHBatch;
+  const hppPcs = totalBatch / hasil;
+  const hppM2 = hppPcs * (pcsM2 || 1);
+  const mg = nv(margin);
+  const target = nv(qm.target) || hasil;
+  const selisih = hasil - target;
+  const wastePct = target > 0 ? (target - hasil) / target * 100 : 0;
+  return {
+    hasil,
+    target,
+    selisih,
+    wastePct,
+    // Bahan
+    detailBahan,
+    bUtama,
+    bTambahan,
+    bPendukung,
+    totalUtama,
+    totalTambahan,
+    totalPendukung,
+    totalBahan,
+    // TK
+    tkBorPcs,
+    tkBorBatch,
+    sortirPerBiji,
+    sortirBatch,
+    tkHarPerBatch,
+    totalTKBatch,
+    tkHarianAktif,
+    // OH
+    detailOH,
+    totalOHBatch,
+    // Total
+    totalBatch,
+    hppPcs,
+    hppM2,
+    // Harga jual
+    hjMin: hppM2 * 1.1,
+    hjAman: hppM2 * (1 + mg / 100),
+    hjIdeal: hppM2 * (1 + (mg + 5) / 100),
+    hjGros: hppM2 * (1 + mg / 100) * 0.93,
+    hjProj: hppM2 * (1 + mg / 100) * 1.1,
+    labaPct: mg,
+    // Per pcs (untuk buis)
+    hjAmanPcs: hppPcs * (1 + mg / 100),
+    // Pct breakdown
+    pctUtama: totalBahan > 0 ? totalUtama / totalBatch * 100 : 0,
+    pctPendukung: totalBahan > 0 ? totalPendukung / totalBatch * 100 : 0,
+    pctTK: totalTKBatch / totalBatch * 100,
+    pctOH: totalOHBatch / totalBatch * 100
+  };
+}
+function buildLaporan(computed, mg) {
+  const tgl = new Date().toLocaleDateString("id-ID");
+  const rp = (v) => "Rp " + Math.round(v||0).toLocaleString("id-ID");
+  let txt = "=== LAPORAN HPP JAYA BERKAH ===\n";
+  txt += "Tanggal: " + tgl + " | Margin: " + mg + "%\n";
+  txt += "================================\n\n";
+  const pv = computed.filter(e => e.prod.j==="paving");
+  const bv = computed.filter(e => e.prod.j!=="paving");
+  if(pv.length){
+    txt += "PAVING BLOCK:\n";
+    pv.forEach((e,i) => {
+      if(!e.r) return;
+      txt += (i+1)+". "+e.prod.n;
+      if(e.prod.m) txt += " ("+e.prod.m+")";
+      txt += "\n";
+      txt += "   HPP/m²: "+rp(e.r.hppM2)+" | HPP/biji: "+rp(e.r.hppPcs)+"\n";
+      txt += "   HJ Aman: "+rp(e.r.hjAman)+"/m² | Margin: "+mg+"%\n";
+      txt += "   Bahan: "+rp(e.r.totalBahan)+" | TK: "+rp(e.r.totalTKBatch)+" | OH: "+rp(e.r.totalOHBatch)+"\n\n";
+    });
+  }
+  if(bv.length){
+    txt += "BUIS BETON:\n";
+    bv.forEach((e,i) => {
+      if(!e.r) return;
+      txt += (i+1)+". "+e.prod.n+"\n";
+      txt += "   HPP/biji: "+rp(e.r.hppPcs)+" | HJ Aman: "+rp(e.r.hjAmanPcs)+"\n\n";
+    });
+  }
+  return txt;
+}
+
+function exportCSV(computed, bahan, mg) {
+  if (!computed.length) return null;
+  const tgl = new Date().toLocaleDateString("id-ID");
+  const q = (v) => '"' + String(v || "").replace(/"/g, '\"\"') + '"';
+  const row = (...c) => c.map(q).join(";");
+  const L = [row("LAPORAN HPP - UD. JAYA BERKAH","Tanggal",tgl,"Margin",mg+"%")];
+  L.push(row(""));
+  const pv = computed.filter(e => e.prod.j==="paving");
+  const bv = computed.filter(e => e.prod.j!=="paving");
+  if(pv.length){
+    L.push(row("PAVING BLOCK"));
+    L.push(row("No","Produk","Mutu","Tebal","pcs/m2","HPP/biji","HPP/m2","HJ Aman/m2","Margin%"));
+    pv.forEach((e,i)=>{if(!e.r)return;L.push(row(i+1,e.prod.n,e.prod.m||"",e.prod.t||"",e.prod.p,Math.round(e.r.hppPcs),Math.round(e.r.hppM2),Math.round(e.r.hjAman),mg+"%"));});
+    L.push(row(""));
+  }
+  if(bv.length){
+    L.push(row("BUIS BETON"));
+    L.push(row("No","Produk","Ukuran","HPP/biji","HJ Aman","Margin%"));
+    bv.forEach((e,i)=>{if(!e.r)return;L.push(row(i+1,e.prod.n,e.prod.u||"",Math.round(e.r.hppPcs),Math.round(e.r.hjAmanPcs),mg+"%"));});
+  }
+  return L.join("\n");
+}
+
+const JB = "#4285F4";
+const JBD = "#1A56DB";
+const JBL = "#EBF2FF";
+const JBA = "rgba(66,133,244,0.10)";
+const HEX = "#E53935";
+const HXL = "#FFEBEE";
+const GRY = "#9E9E9E";
+const C = {
+  bg: "#F0F4FF",
+  // app background blue-tinted
+  c1: "#FFFFFF",
+  // card
+  c2: "#F5F7FF",
+  // secondary card
+  c3: "#EBF0FF",
+  // pressed
+  br: "#DCE4F5",
+  // border
+  br2: "#E8EEFF",
+  // border subtle
+  jb: JB,
+  jbd: JBD,
+  jbl: JBL,
+  jba: JBA,
+  hex: HEX,
+  hxl: HXL,
+  gry: GRY,
+  gn: "#30D158",
+  gnl: "#E8FAF0",
+  // iOS green
+  rd: "#FF3B30",
+  rdl: "#FFEDEC",
+  // iOS red
+  or: "#FF9F0A",
+  orl: "#FFF4E0",
+  // iOS orange
+  vi: "#BF5AF2",
+  vil: "#F5EEFF",
+  // iOS purple
+  tx: "#1C2B4A",
+  // text primary
+  t2: "#3D5A8A",
+  // text secondary
+  mt: "#6879A8",
+  // muted
+  dm: "#96A5C4",
+  // dimmed
+  ft: "#C5CDE0"
+  // faint
+};
+const MS = {
+  "Kw2": { c: "#6879A8", bg: "#F0F4FF", br: "#C5CDE0" },
+  "Kw1": { c: "#7B61FF", bg: "#F3F0FF", br: "#C5B8FF" },
+  "K175": { c: "#6879A8", bg: "#F0F4FF", br: "#C5CDE0" },
+  "K200": { c: JB, bg: JBL, br: "#BCCFFA" },
+  "K225": { c: "#30D158", bg: "#E8FAF0", br: "#A0E8BC" },
+  "K250": { c: "#FF9F0A", bg: "#FFF4E0", br: "#FFD080" },
+  "K300": { c: HEX, bg: HXL, br: "#FFBAB8" },
+  "Custom": { c: "#BF5AF2", bg: "#F5EEFF", br: "#D9AAFF" },
+  "\u2014": { c: GRY, bg: "#F5F5F5", br: "#E0E0E0" }
+};
+const MUTU_OPTS = ["Kw2", "Kw1", "K175", "K200", "K225", "K250", "K300", "Custom", "\u2014"];
+const KS = {
+  utama: { c: JB, bg: JBA, br: "#BCCFFA", ico: "\u{1F3F7}", label: "Bahan Utama" },
+  tambahan: { c: "#BF5AF2", bg: "rgba(191,90,242,.08)", br: "#D9AAFF", ico: "\u{1F3A8}", label: "Pewarna/Additive" },
+  pendukung: { c: C.mt, bg: "rgba(104,121,168,.06)", br: C.br, ico: "\u{1F4E6}", label: "Pendukung" }
+};
+const UC = { paving: C.or, buis: JB, semua: C.gn };
+const UL = { paving: "\u{1F9F1} Paving", buis: "\u2B55 Buis", semua: "\u{1F504} Semua" };
+const JBLogo = ({ size = 36 }) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 100 100", fill: "none" }, /* @__PURE__ */ React.createElement("polygon", { points: "24,2 40,11 40,29 24,38 8,29 8,11", fill: "#E53935" }), /* @__PURE__ */ React.createElement("polygon", { points: "44,0 56,7 56,21 44,28 32,21 32,7", fill: "#9E9E9E" }), /* @__PURE__ */ React.createElement("rect", { x: "4", y: "42", width: "30", height: "12", rx: "3", fill: "#4285F4" }), /* @__PURE__ */ React.createElement("rect", { x: "15", y: "42", width: "12", height: "44", rx: "3", fill: "#4285F4" }), /* @__PURE__ */ React.createElement("path", { d: "M4 78 Q4 95 17 95 Q32 95 32 78 V82 Q32 88 17 88 Q10 88 10 78 Z", fill: "#4285F4" }), /* @__PURE__ */ React.createElement("rect", { x: "38", y: "42", width: "12", height: "53", rx: "3", fill: "#4285F4" }), /* @__PURE__ */ React.createElement("path", { d: "M50 42 H64 Q78 42 78 55 Q78 66 64 66 H50 Z", fill: "#4285F4" }), /* @__PURE__ */ React.createElement("path", { d: "M50 66 H66 Q82 66 82 78 Q82 95 66 95 H50 Z", fill: "#4285F4" }));
+const Cap = ({ c, sx = {} }) => /* @__PURE__ */ React.createElement("div", { style: __spreadValues({ fontSize: 10, fontWeight: 600, color: c || C.mt, letterSpacing: 0.5, marginBottom: 4 }, sx) }, c);
+const Mo = ({ v, s = 12, c, b, bl, sx = {} }) => /* @__PURE__ */ React.createElement("span", { style: __spreadValues({ fontSize: s, color: c || C.tx, fontWeight: b ? 700 : 400, display: bl ? "block" : "inline" }, sx) }, v);
+const MChip = ({ m, sm }) => {
+  const cfg = MS[m] || MS["\u2014"];
+  return /* @__PURE__ */ React.createElement("span", { style: {
+    background: cfg.bg,
+    color: cfg.c,
+    border: `1px solid ${cfg.br}`,
+    padding: sm ? "2px 8px" : "3px 10px",
+    borderRadius: 20,
+    fontSize: sm ? 9 : 10,
+    fontWeight: 600,
+    whiteSpace: "nowrap"
+  } }, m || "\u2014");
+};
+const KBadge = ({ k }) => {
+  const s = KS[k] || KS.pendukung;
+  return /* @__PURE__ */ React.createElement("span", { style: {
+    background: s.bg,
+    color: s.c,
+    border: `1px solid ${s.br}`,
+    padding: "2px 8px",
+    borderRadius: 8,
+    fontSize: 9,
+    fontWeight: 600
+  } }, s.ico, " ", s.label);
+};
+const UBadge = ({ u }) => {
+  const c = UC[u] || C.gn;
+  return /* @__PURE__ */ React.createElement("span", { style: {
+    color: c,
+    background: c + "18",
+    border: `1px solid ${c}33`,
+    padding: "2px 8px",
+    borderRadius: 8,
+    fontSize: 9,
+    fontWeight: 600
+  } }, UL[u] || u);
+};
+function NInp(_a) {
+  var _b = _a, { label, val, set, pre, suf, hint, sm, sx = {} } = _b, props = __objRest(_b, ["label", "val", "set", "pre", "suf", "hint", "sm", "sx"]);
+  return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: sm ? 5 : 10 } }, label && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: C.mt, marginBottom: 4 } }, label), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, pre && /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontSize: 12, color: C.dm, pointerEvents: "none" } }, pre), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      inputMode: "decimal",
+      value: val === void 0 || val === null ? "" : val,
+      onChange: (e) => {
+        const v = e.target.value;
+        if (v === "" || v === "-" || /^-?\d*\.?\d*$/.test(v)) set(v);
+      },
+      placeholder: props.placeholder || "",
+      style: __spreadValues({
+        background: C.c1,
+        border: `1.5px solid ${C.br}`,
+        borderRadius: 12,
+        color: C.tx,
+        padding: `10px ${suf ? "36px" : "12px"} 10px ${pre ? "30px" : "12px"}`,
+        fontSize: 13,
+        width: "100%",
+        outline: "none",
+        boxShadow: "0 1px 3px rgba(66,133,244,.06)"
+      }, sx),
+      onFocus: (e) => {
+        e.target.style.borderColor = JB;
+        e.target.style.boxShadow = `0 0 0 3px ${JBA}`;
+      },
+      onBlur: (e) => {
+        e.target.style.borderColor = C.br;
+        e.target.style.boxShadow = "0 1px 3px rgba(66,133,244,.06)";
+      }
+    }
+  ), suf && /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", fontSize: 11, color: C.dm, pointerEvents: "none" } }, suf)), hint && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm, marginTop: 3 } }, hint));
+}
+function TInp({ label, val, set, ph, sm }) {
+  return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: sm ? 5 : 10 } }, label && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: C.mt, marginBottom: 4 } }, label), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      value: val,
+      onChange: (e) => set(e.target.value),
+      placeholder: ph || "",
+      style: {
+        background: C.c1,
+        border: `1.5px solid ${C.br}`,
+        borderRadius: 12,
+        color: C.tx,
+        padding: "10px 12px",
+        fontSize: 13,
+        width: "100%",
+        outline: "none",
+        boxShadow: "0 1px 3px rgba(66,133,244,.06)"
+      },
+      onFocus: (e) => {
+        e.target.style.borderColor = JB;
+        e.target.style.boxShadow = `0 0 0 3px ${JBA}`;
+      },
+      onBlur: (e) => {
+        e.target.style.borderColor = C.br;
+        e.target.style.boxShadow = "0 1px 3px rgba(66,133,244,.06)";
+      }
+    }
+  ));
+}
+function Sel({ label, val, set, opts, sm }) {
+  return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: sm ? 5 : 10 } }, label && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: C.mt, marginBottom: 4 } }, label), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: val,
+      onChange: (e) => set(e.target.value),
+      style: {
+        background: C.c1,
+        border: `1.5px solid ${C.br}`,
+        borderRadius: 12,
+        color: C.tx,
+        padding: "10px 12px",
+        fontSize: 13,
+        width: "100%",
+        outline: "none",
+        boxShadow: "0 1px 3px rgba(66,133,244,.06)"
+      }
+    },
+    opts.map((o) => /* @__PURE__ */ React.createElement("option", { key: o.v || o, value: o.v || o }, o.l || o))
+  ));
+}
+function Tog({ on, set }) {
+  return /* @__PURE__ */ React.createElement("div", { onClick: set, style: { cursor: "pointer", flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    width: 44,
+    height: 26,
+    background: on ? C.gn : C.ft,
+    borderRadius: 13,
+    position: "relative",
+    transition: "background .22s",
+    boxShadow: on ? "0 0 0 0 transparent" : "inset 0 1px 3px rgba(0,0,0,.15)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: {
+    position: "absolute",
+    top: 3,
+    left: on ? 20 : 3,
+    width: 20,
+    height: 20,
+    background: "#fff",
+    borderRadius: "50%",
+    transition: "left .22s",
+    boxShadow: "0 1px 4px rgba(0,0,0,.25)"
+  } })));
+}
+function Btn({ children, onClick, v = "def", sm, dis, full, sx = {} }) {
+  const styles = {
+    pri: { bg: JB, co: "#fff", sh: `0 2px 8px ${JBA}` },
+    gn: { bg: C.gn, co: "#fff", sh: "0 2px 8px rgba(48,209,88,.2)" },
+    rd: { bg: C.rd, co: "#fff", sh: "0 2px 8px rgba(255,59,48,.2)" },
+    bl: { bg: JB, co: "#fff", sh: `0 2px 8px ${JBA}` },
+    hex: { bg: HEX, co: "#fff", sh: "0 2px 8px rgba(229,57,53,.2)" },
+    def: { bg: C.c1, co: C.t2, sh: "0 1px 3px rgba(66,133,244,.08)" }
+  };
+  const s = dis ? { bg: C.br2, co: C.dm, sh: "none" } : styles[v] || styles.def;
+  return /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: dis ? void 0 : onClick,
+      disabled: dis,
+      style: __spreadValues({
+        padding: sm ? "6px 12px" : "10px 16px",
+        background: s.bg,
+        color: s.co,
+        border: "none",
+        borderRadius: 12,
+        fontSize: sm ? 12 : 13,
+        fontWeight: 600,
+        cursor: dis ? "not-allowed" : "pointer",
+        width: full ? "100%" : "auto",
+        transition: "all .16s",
+        boxShadow: s.sh
+      }, sx),
+      onMouseEnter: (e) => {
+        if (!dis) e.currentTarget.style.filter = "brightness(1.08)";
+        e.currentTarget.style.transform = "scale(1.02)";
+      },
+      onMouseLeave: (e) => {
+        e.currentTarget.style.filter = "none";
+        e.currentTarget.style.transform = "scale(1)";
+      },
+      onMouseDown: (e) => e.currentTarget.style.transform = "scale(0.97)",
+      onMouseUp: (e) => e.currentTarget.style.transform = "scale(1.02)"
+    },
+    children
+  );
+}
+function KBox({ label, val, sub, hi, warn, accent, sx = {} }) {
+  const bg = warn ? C.rdl : hi ? JBL : accent ? accent + "18" : C.c2;
+  const co = warn ? C.rd : hi ? JBD : accent || C.tx;
+  return /* @__PURE__ */ React.createElement("div", { style: __spreadValues({ background: bg, borderRadius: 14, padding: "12px 14px" }, sx) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: C.mt, marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 } }, label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 16, fontWeight: 700, color: co, lineHeight: 1 } }, val), sub && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm, marginTop: 3 } }, sub));
+}
+function Card({ children, sx = {} }) {
+  return /* @__PURE__ */ React.createElement("div", { style: __spreadValues({
+    background: C.c1,
+    borderRadius: 18,
+    padding: "14px",
+    marginBottom: 12,
+    boxShadow: "0 2px 12px rgba(66,133,244,.08)"
+  }, sx) }, children);
+}
+function Alert({ type = "info", children }) {
+  const M = {
+    info: { bg: JBL, br: JB + "44", co: JBD, ico: "\u2139\uFE0F" },
+    ok: { bg: C.gnl, br: C.gn + "44", co: "#1A7A3A", ico: "\u2705" },
+    warn: { bg: C.orl, br: C.or + "44", co: "#B85C00", ico: "\u26A0\uFE0F" }
+  };
+  const s = M[type] || M.info;
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    background: s.bg,
+    border: `1.5px solid ${s.br}`,
+    borderRadius: 14,
+    padding: "10px 14px",
+    marginBottom: 10,
+    fontSize: 12,
+    color: s.co,
+    lineHeight: 1.6
+  } }, s.ico, " ", children);
+}
+function Sec({ title, badge, hi, open: def = true, children }) {
+  const [o, setO] = useState(def);
+  return /* @__PURE__ */ React.createElement(Card, { sx: { padding: "0" } }, /* @__PURE__ */ React.createElement("div", { onClick: () => setO((x) => !x), style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "14px 16px",
+    borderBottom: o ? `1px solid ${C.br2}` : "none",
+    cursor: "pointer"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: hi ? JBD : C.tx } }, title), badge !== void 0 && /* @__PURE__ */ React.createElement("span", { style: { background: JBL, color: JBD, borderRadius: 20, padding: "2px 10px", fontSize: 11, fontWeight: 600 } }, badge)), /* @__PURE__ */ React.createElement(IcoChevron, { up: o, color: C.dm, size: 16 })), o && /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 16px" } }, children));
+}
+function BahanRow({ b, onUpd, onDel }) {
+  const [exp, setExp] = useState(false);
+  const ks = KS[b.kat] || KS.pendukung;
+  const biaya = nv(b.qty) * nv(b.harga);
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    background: b.on ? C.c1 : C.c2,
+    border: `1.5px solid ${b.on ? ks.br : C.br}`,
+    borderRadius: 14,
+    padding: "11px 13px",
+    marginBottom: 7,
+    boxShadow: b.on ? "0 1px 6px rgba(66,133,244,.07)" : "none",
+    opacity: b.on ? 1 : 0.65
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement(Tog, { on: b.on, set: () => onUpd("on", !b.on) }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, cursor: "pointer" }, onClick: () => setExp((x) => !x) }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", marginBottom: 3 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 600, color: C.tx } }, b.nama), /* @__PURE__ */ React.createElement(KBadge, { k: b.kat }), /* @__PURE__ */ React.createElement(UBadge, { u: b.untuk || "semua" })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: JBD, fontWeight: 600 } }, rp(b.harga), "/", b.satuan))), /* @__PURE__ */ React.createElement("button", { onClick: () => setExp((x) => !x), style: { background: JBL, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, exp ? /* @__PURE__ */ React.createElement(IcoChevron, { up: true, color: JBD, size: 14 }) : /* @__PURE__ */ React.createElement(IcoPencil, { color: JBD, size: 14 })), /* @__PURE__ */ React.createElement("button", { onClick: onDel, style: { background: C.rdl, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, /* @__PURE__ */ React.createElement(IcoTrash, { size: 14 }))), exp && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.br2}` } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama", val: b.nama, set: (v) => onUpd("nama", v), sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Satuan", val: b.satuan, set: (v) => onUpd("satuan", v), opts: SATUAN, sm: true })), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(NInp, { label: `Harga/${b.satuan}`, val: b.harga === 0 ? "" : b.harga, set: (v) => onUpd("harga", v === "" ? 0 : nv(v)), pre: "Rp", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Qty/batch", val: b.qty === 0 ? "" : b.qty, set: (v) => onUpd("qty", v === "" ? 0 : nv(v)), suf: b.satuan, sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Kategori", val: b.kat, set: (v) => onUpd("kat", v), opts: [{ v: "utama", l: "Bahan Utama" }, { v: "tambahan", l: "Pewarna/Additive" }, { v: "pendukung", l: "Pendukung" }], sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Untuk", val: b.untuk || "semua", set: (v) => onUpd("untuk", v), opts: [{ v: "semua", l: "\u{1F504} Semua" }, { v: "paving", l: "\u{1F9F1} Paving" }, { v: "buis", l: "\u2B55 Buis" }], sm: true })), /* @__PURE__ */ React.createElement(TInp, { label: "Keterangan", val: b.ket || "", set: (v) => onUpd("ket", v), ph: "catatan...", sm: true })));
+}
+function PavingRow({ prod, onUpd, onDel }) {
+  const [exp, setExp] = useState(false);
+  const mc = MS[prod.m] || MS["\u2014"];
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    background: C.c1,
+    border: `1px solid ${C.br}`,
+    borderRadius: 14,
+    padding: "11px 13px",
+    marginBottom: 7,
+    boxShadow: "0 1px 4px rgba(66,133,244,.06)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, cursor: "pointer", flex: 1 }, onClick: () => setExp((x) => !x) }, /* @__PURE__ */ React.createElement(MChip, { m: prod.m, sm: true }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 600, color: C.tx } }, prod.n), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, prod.p, "/m\xB2")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.gn, fontWeight: 600 } }, "Rp ", (prod.b || 0).toLocaleString("id-ID")), /* @__PURE__ */ React.createElement("button", { onClick: () => setExp((x) => !x), style: { background: JBL, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, exp ? /* @__PURE__ */ React.createElement(IcoChevron, { up: true, color: JBD, size: 14 }) : /* @__PURE__ */ React.createElement(IcoPencil, { color: JBD, size: 14 })), /* @__PURE__ */ React.createElement("button", { onClick: onDel, style: { background: C.rdl, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, /* @__PURE__ */ React.createElement(IcoTrash, { size: 14 })))), exp && /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.br2}` } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama", val: prod.n, set: (v) => onUpd("n", v), sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Group", val: prod.g, set: (v) => onUpd("g", v), sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Mutu", val: prod.m || "\u2014", set: (v) => onUpd("m", v), opts: MUTU_OPTS, sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Tebal", val: prod.t || "", set: (v) => onUpd("t", v), sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "pcs/m\xB2", val: prod.p, set: (v) => onUpd("p", nv(v)), suf: "pcs", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Borongan TK/biji", val: prod.b, set: (v) => onUpd("b", nv(v)), pre: "Rp", sm: true })));
+}
+function BuisRow({ prod, onUpd, onDel }) {
+  const [exp, setExp] = useState(false);
+  return /* @__PURE__ */ React.createElement("div", { style: {
+    background: C.c1,
+    border: `1px solid ${C.br}`,
+    borderRadius: 14,
+    padding: "11px 13px",
+    marginBottom: 7,
+    boxShadow: "0 1px 4px rgba(66,133,244,.06)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, cursor: "pointer", flex: 1 }, onClick: () => setExp((x) => !x) }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 600, color: C.tx } }, prod.n), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, prod.u || "")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.gn, fontWeight: 600 } }, "Rp ", (prod.b || 0).toLocaleString("id-ID")), /* @__PURE__ */ React.createElement("button", { onClick: () => setExp((x) => !x), style: { background: JBL, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, exp ? /* @__PURE__ */ React.createElement(IcoChevron, { up: true, color: JBD, size: 14 }) : /* @__PURE__ */ React.createElement(IcoPencil, { color: JBD, size: 14 })), /* @__PURE__ */ React.createElement("button", { onClick: onDel, style: { background: C.rdl, border: "none", cursor: "pointer", borderRadius: 8, padding: "6px", display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30 } }, /* @__PURE__ */ React.createElement(IcoTrash, { size: 14 })))), exp && /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginTop: 12, paddingTop: 12, borderTop: `1px solid ${C.br2}` } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama", val: prod.n, set: (v) => onUpd("n", v), sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Group", val: prod.g, set: (v) => onUpd("g", v), sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Ukuran", val: prod.u || "", set: (v) => onUpd("u", v), ph: "\xD860\xD7100cm", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Borongan TK/biji", val: prod.b, set: (v) => onUpd("b", nv(v)), pre: "Rp", sm: true })));
+}
+const IcoChevron = ({ up = false, size = 16, color = "#9AA3B8" }) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none" }, /* @__PURE__ */ React.createElement("path", { d: up ? "M6 15L12 9L18 15" : "M6 9L12 15L18 9", stroke: color, strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" }));
+const IcoPencil = ({ size = 16, color = "#9AA3B8" }) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none" }, /* @__PURE__ */ React.createElement("path", { d: "M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }), /* @__PURE__ */ React.createElement("path", { d: "M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }));
+const IcoTrash = ({ size = 16, color = "#FF3B30" }) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none" }, /* @__PURE__ */ React.createElement("polyline", { points: "3 6 5 6 21 6", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }), /* @__PURE__ */ React.createElement("path", { d: "M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }));
+const IcoDownload = ({ size = 16, color = "#fff" }) => /* @__PURE__ */ React.createElement("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none" }, /* @__PURE__ */ React.createElement("path", { d: "M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }), /* @__PURE__ */ React.createElement("polyline", { points: "7 10 12 15 17 10", stroke: color, strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }), /* @__PURE__ */ React.createElement("line", { x1: "12", y1: "15", x2: "12", y2: "3", stroke: color, strokeWidth: "2", strokeLinecap: "round" }));
+function KenaikanHargaPanel({ bahan, setBahan, mode, computed, mg, totalOutput }) {
+  const [khData, setKhData] = useState(() => {
+    const d = {};
+    bahan.forEach((b) => {
+      d[b.id] = { pct: "", hargaBaru: "", aktif: false };
+    });
+    return d;
+  });
+  const updKH = (bid, k, v) => setKhData((x) => __spreadProps(__spreadValues({}, x), { [bid]: __spreadProps(__spreadValues({}, x[bid]), { [k]: v }) }));
+  const aktifBahan = bahan.filter((b) => {
+    var _a;
+    return b.on && ((_a = khData[b.id]) == null ? void 0 : _a.aktif);
+  });
+  const bahanSim = bahan.map((b) => {
+    const kh = khData[b.id];
+    if (!(kh == null ? void 0 : kh.aktif)) return b;
+    if (mode === "percent") {
+      const pct = nv(kh.pct);
+      return __spreadProps(__spreadValues({}, b), { harga: b.harga * (1 + pct / 100) });
+    } else {
+      const baru = nv(kh.hargaBaru);
+      return __spreadProps(__spreadValues({}, b), { harga: baru || b.harga });
+    }
+  });
+  const dampak = computed.map((e) => {
+    const isPaving = e.prod.j === "paving";
+    const pcsM2 = isPaving ? e.prod.p || 1 : 1;
+    const borAkt = nv(e.borOvr !== void 0 ? e.borOvr : e.prod.b);
+    const qmSim = __spreadProps(__spreadValues({}, e.qm), { est: e.qm.est || totalOutput });
+    const rBaru = hitungHPP(bahanSim, qmSim, borAkt, [], [], totalOutput, pcsM2, mg, e.prod.j);
+    const hppLama = isPaving ? e.r.hppM2 : e.r.hppPcs;
+    const hppBaru = isPaving ? rBaru.hppM2 : rBaru.hppPcs;
+    const selisih = hppBaru - hppLama;
+    const pctNaik = hppLama > 0 ? selisih / hppLama * 100 : 0;
+    const hjLama = isPaving ? e.r.hjAman : e.r.hjAman;
+    const hjRekom = hppBaru * (1 + mg / 100);
+    return { prod: e.prod, isPaving, hppLama, hppBaru, selisih, pctNaik, hjLama, hjRekom };
+  });
+  const adaDampak = dampak.some((d) => Math.abs(d.selisih) > 0);
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.mt, marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 } }, "Pilih bahan yang harganya naik:"), bahan.filter((b) => b.on).map((b) => {
+    const kh = khData[b.id] || { pct: "", hargaBaru: "", aktif: false };
+    const hargaBaru = mode === "percent" ? b.harga * (1 + nv(kh.pct) / 100) : nv(kh.hargaBaru) || b.harga;
+    const naik = hargaBaru - b.harga;
+    return /* @__PURE__ */ React.createElement("div", { key: b.id, style: {
+      background: kh.aktif ? C.orl : C.c2,
+      border: `1.5px solid ${kh.aktif ? C.or : C.br}`,
+      borderRadius: 12,
+      padding: "10px 12px",
+      marginBottom: 6,
+      transition: "all .15s"
+    } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "checkbox",
+        checked: !!kh.aktif,
+        onChange: () => updKH(b.id, "aktif", !kh.aktif),
+        style: { width: 18, height: 18, cursor: "pointer", accentColor: C.or }
+      }
+    ), /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 600, color: C.tx } }, b.nama), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm, marginLeft: 8 } }, rp(b.harga), "/", b.satuan)), kh.aktif && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 } }, mode === "percent" ? /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 } }, /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        inputMode: "decimal",
+        value: kh.pct,
+        onChange: (e) => {
+          const v = e.target.value;
+          if (v === "" || /^\d*\.?\d*$/.test(v)) updKH(b.id, "pct", v);
+        },
+        placeholder: "0",
+        style: {
+          width: 64,
+          background: "#fff",
+          border: `1.5px solid ${C.or}`,
+          borderRadius: 8,
+          color: "#B85C00",
+          padding: "5px 8px",
+          fontSize: 13,
+          fontWeight: 600,
+          outline: "none",
+          textAlign: "center"
+        }
+      }
+    ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.or, fontWeight: 600 } }, "%")) : /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, "Rp"), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        inputMode: "decimal",
+        value: kh.hargaBaru,
+        onChange: (e) => {
+          const v = e.target.value;
+          if (v === "" || /^\d*\.?\d*$/.test(v)) updKH(b.id, "hargaBaru", v);
+        },
+        placeholder: String(b.harga),
+        style: {
+          width: 90,
+          background: "#fff",
+          border: `1.5px solid ${C.or}`,
+          borderRadius: 8,
+          color: "#B85C00",
+          padding: "5px 8px",
+          fontSize: 13,
+          fontWeight: 600,
+          outline: "none"
+        }
+      }
+    )), naik > 0 && /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.rd, fontWeight: 600 } }, "+", rp(naik)))), kh.aktif && hargaBaru > b.harga && /* @__PURE__ */ React.createElement("div", { style: {
+      marginTop: 6,
+      paddingTop: 6,
+      borderTop: `1px solid ${C.or}22`,
+      display: "flex",
+      gap: 12,
+      fontSize: 11
+    } }, /* @__PURE__ */ React.createElement("span", { style: { color: C.dm } }, "Sebelum: ", /* @__PURE__ */ React.createElement("b", null, rp(b.harga))), /* @__PURE__ */ React.createElement("span", { style: { color: "#B85C00" } }, "\u2192 Sesudah: ", /* @__PURE__ */ React.createElement("b", null, rp(Math.round(hargaBaru)))), mode === "percent" && nv(kh.pct) > 0 && /* @__PURE__ */ React.createElement("span", { style: { color: C.rd, fontWeight: 600 } }, "naik ", nv(kh.pct), "%")));
+  }), aktifBahan.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, margin: "10px 0" } }, /* @__PURE__ */ React.createElement(Btn, { onClick: () => {
+    setBahan((bs) => bs.map((b) => {
+      const kh = khData[b.id];
+      if (!(kh == null ? void 0 : kh.aktif)) return b;
+      const hBaru = mode === "percent" ? Math.round(b.harga * (1 + nv(kh.pct) / 100)) : nv(kh.hargaBaru) || b.harga;
+      return __spreadProps(__spreadValues({}, b), { harga: hBaru });
+    }));
+    setKhData((x) => {
+      const d = __spreadValues({}, x);
+      Object.keys(d).forEach((id) => {
+        d[id] = __spreadProps(__spreadValues({}, d[id]), { aktif: false, pct: "", hargaBaru: "" });
+      });
+      return d;
+    });
+    alert("Harga bahan berhasil diperbarui!");
+  }, v: "hex", sx: { flex: 1 } }, "\u2705 Terapkan Harga Baru")), adaDampak && computed.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 12 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    fontSize: 12,
+    fontWeight: 700,
+    color: "#B85C00",
+    marginBottom: 8,
+    display: "flex",
+    alignItems: "center",
+    gap: 6
+  } }, "\u{1F4CA} Rekomendasi Penyesuaian Harga Jual"), /* @__PURE__ */ React.createElement("div", { style: { background: "#fff", borderRadius: 12, overflow: "hidden", border: `1px solid ${C.or}33` } }, /* @__PURE__ */ React.createElement("div", { style: {
+    display: "grid",
+    gridTemplateColumns: "2fr 1fr 1fr 1fr",
+    gap: 0,
+    background: C.or,
+    padding: "8px 12px"
+  } }, ["Produk", "HPP Lama", "HPP Baru", "HJ Rekom"].map(
+    (h) => /* @__PURE__ */ React.createElement("span", { key: h, style: { fontSize: 10, fontWeight: 700, color: "#fff", letterSpacing: 0.3 } }, h)
+  )), dampak.map((d, i) => /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      key: d.prod.id,
+      style: {
+        display: "grid",
+        gridTemplateColumns: "2fr 1fr 1fr 1fr",
+        gap: 0,
+        padding: "9px 12px",
+        background: i % 2 === 0 ? "#fff" : "#FFF8F0",
+        borderBottom: `1px solid ${C.or}18`
+      }
+    },
+    /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: C.tx, lineHeight: 1.3 } }, d.prod.n), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm } }, d.isPaving ? "per m\xB2" : "per biji")),
+    /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: C.t2 } }, rp(Math.round(d.hppLama))),
+    /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: d.selisih > 0 ? C.rd : C.gn } }, rp(Math.round(d.hppBaru))), d.selisih > 0 && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: C.rd } }, "+", d.pctNaik.toFixed(1), "%")),
+    /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#B85C00" } }, rp(Math.round(d.hjRekom))), d.selisih > 0 && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: C.or, fontWeight: 600 } }, "naik ", ((d.hjRekom / d.hjLama - 1) * 100).toFixed(1), "%"))
+  ))), /* @__PURE__ */ React.createElement("div", { style: {
+    background: C.orl,
+    borderRadius: 10,
+    padding: "10px 12px",
+    marginTop: 8,
+    fontSize: 11,
+    color: "#B85C00",
+    lineHeight: 1.6
+  } }, "\u{1F4A1} ", /* @__PURE__ */ React.createElement("b", null, "Rekomendasi:"), " Naikkan harga jual rata-rata", " ", /* @__PURE__ */ React.createElement("b", { style: { fontSize: 13 } }, computed.length > 0 ? (dampak.reduce((s, d) => {
+    const pct = d.hjLama > 0 ? (d.hjRekom / d.hjLama - 1) * 100 : 0;
+    return s + pct;
+  }, 0) / dampak.length).toFixed(1) : 0, "%"), " ", "untuk mempertahankan margin ", mg, "% dengan harga bahan baru.")));
+}
+function App() {
+  const [bahan, setBahan] = useState(() => INIT_BAHAN.map((b) => __spreadValues({}, b)));
+  const [pavP, setPavP] = useState(INIT_PAVING);
+  const [buisP, setBuisP] = useState(INIT_BUIS);
+  const [tkH, setTKH] = useState(INIT_TK);
+  const [oh, setOH] = useState(INIT_OH);
+  const [prodH, setProdH] = useState(450);
+  const [margin, setMG] = useState(20);
+  const [cMG, setCMG] = useState("");
+  const [items, setItems] = useState([]);
+  const [tab, setTab] = useState("produk");
+  const [grp, setGrp] = useState("paving");
+  const [fGrp, setFGrp] = useState("Semua");
+  const [fB, setFB] = useState("semua");
+  const [csvOK, setCsvOK] = useState(false);
+  const [showAB, setShowAB] = useState(false);
+  const [showAP, setShowAP] = useState(false);
+  const [showABu, setShowABu] = useState(false);
+  const [fBn, setFBn] = useState({ nama: "", satuan: "kg", harga: 0, qty: 0, kat: "utama", untuk: "semua", ket: "" });
+  const [fPn, setFPn] = useState({ n: "", g: "Bata", m: "K225", t: "6cm", p: 50, b: 0 });
+  const [fBun, setFBun] = useState({ n: "", g: "Buis Beton", u: "", b: 0 });
+  const [showKH, setShowKH] = useState(false);
+  const [khMode, setKhMode] = useState("percent");
+  const mg = cMG !== "" ? nv(cMG) : margin;
+  const computed = useMemo(() => items.map((it) => {
+    const prod = it.prod;
+    const pcsM2 = prod.j === "paving" ? prod.p || 1 : 1;
+    const qmFull = __spreadProps(__spreadValues({}, it.qm), { _globalProdH: prodH });
+    const r = hitungHPPv2(bahan, qmFull, tkH, oh, pcsM2, mg, prod.j);
+    return __spreadProps(__spreadValues({}, it), { prod, pcsM2, r });
+  }), [items, bahan, tkH, oh, mg, prodH]);
+  const addItem = (prod) => {
+    if (items.some((i) => i.prod.id === prod.id)) {
+      alert("Sudah ada.");
+      return;
+    }
+    const initQM = {
+      hasil: "",
+      // hasil pcs per batch (WAJIB ISI)
+      aktual: "",
+      // aktual lapangan
+      target: "",
+      // target ideal
+      prodHarian: "",
+      // dikosongkan → pakai global prodH pabrik
+      tkBor: prod.b || 0,
+      // borongan TK per biji (cetak)
+      sortirNominal: "",
+      // nominal biaya sortir (total sekali sortir)
+      sortirBiji: "",
+      // dibagi berapa biji
+      komposisi: {},
+      // override qty bahan: {[bid]: qty}
+      tkOvr: {},
+      // override TK harian aktif: {[tid]: boolean}
+      ohOvr: {},
+      // override OH metode: {[oid]: {metode,nilai}}
+      showBD: false,
+      showDetail: { bahan: false, tk: false, oh: false }
+    };
+    setItems((s) => [...s, { id: uid(), prod, qm: initQM, borOvr: void 0 }]);
+  };
+  const delItem = (id) => setItems((s) => s.filter((x) => x.id !== id));
+  const updQM = (id, k, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { [k]: v }) }) : x));
+  const updKomposisi = (id, bid, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { komposisi: __spreadProps(__spreadValues({}, x.qm.komposisi), { [bid]: v }) }) }) : x));
+  const updTkOvr = (id, tid, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { tkOvr: __spreadProps(__spreadValues({}, x.qm.tkOvr), { [tid]: v }) }) }) : x));
+  const updTkBiji = (id, tid, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { tkBiji: __spreadProps(__spreadValues({}, x.qm.tkBiji || {}), { [tid]: v }) }) }) : x));
+  const updOhOvr = (id, oid, k, v) => setItems((s) => s.map((x) => {
+    var _a;
+    return x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { ohOvr: __spreadProps(__spreadValues({}, x.qm.ohOvr), { [oid]: __spreadProps(__spreadValues({}, ((_a = x.qm.ohOvr) == null ? void 0 : _a[oid]) || {}), { [k]: v }) }) }) }) : x;
+  }));
+  const updDetail = (id, section, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { showDetail: __spreadProps(__spreadValues({}, x.qm.showDetail), { [section]: v }) }) }) : x));
+  const updI = (id, k, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
+  const updBahan = (bid, k, v) => setBahan((b) => b.map((x) => x.id === bid ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
+  const updPav = (id, k, v) => setPavP((p) => p.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
+  const delPav = (id) => {
+    if (items.some((i) => i.prod.id === id)) {
+      alert("Hapus dari HPP dulu.");
+      return;
+    }
+    setPavP((p) => p.filter((x) => x.id !== id));
+  };
+  const updBuis = (id, k, v) => setBuisP((p) => p.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
+  const delBuis = (id) => {
+    if (items.some((i) => i.prod.id === id)) {
+      alert("Hapus dari HPP dulu.");
+      return;
+    }
+    setBuisP((p) => p.filter((x) => x.id !== id));
+  };
+  const updOH = (id, k, v) => setOH((o) => o.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: k === "harga" ? nv(v) : v }) : x));
+  const updTKH = (id, k, v) => setTKH((t) => t.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: k === "harga" ? nv(v) : k === "on" ? !x.on : v }) : x));
+  const [showExport, setShowExport] = React.useState(false);
+  const [exportText, setExportText] = React.useState("");
+  const [copied, setCopied] = React.useState(false);
+  const handleCSV = () => {
+    if(!computed.length) return;
+    // Build CSV content
+    const tgl = new Date().toLocaleDateString("id-ID");
+    const q = (v) => '"' + String(v||"").replace(/"/g,'""') + '"';
+    const row = (...c) => c.map(q).join(",");
+    const L = [];
+    L.push(row("LAPORAN HPP - UD. JAYA BERKAH"));
+    L.push(row("Tanggal",tgl,"Margin",mg+"%"));
+    L.push(row(""));
+    const pv = computed.filter(e=>e.prod.j==="paving");
+    const bv = computed.filter(e=>e.prod.j!=="paving");
+    if(pv.length){
+      L.push(row("PAVING BLOCK"));
+      L.push(row("No","Produk","Mutu","Tebal","pcs/m2","Hasil/Batch","HPP/biji","HPP/m2","HJ Aman/m2","Bahan/batch","TK/batch","OH/batch","Margin%"));
+      pv.forEach((e,i)=>{
+        if(!e.r)return;
+        L.push(row(i+1,e.prod.n,e.prod.m||"",e.prod.t||"",e.prod.p,e.r.hasil,
+          Math.round(e.r.hppPcs),Math.round(e.r.hppM2),Math.round(e.r.hjAman),
+          Math.round(e.r.totalBahan),Math.round(e.r.totalTKBatch),Math.round(e.r.totalOHBatch),mg+"%"));
+      });
+      L.push(row(""));
+    }
+    if(bv.length){
+      L.push(row("BUIS BETON"));
+      L.push(row("No","Produk","Ukuran","Hasil/Batch","HPP/biji","HJ Aman","Bahan/batch","TK/batch","OH/batch","Margin%"));
+      bv.forEach((e,i)=>{
+        if(!e.r)return;
+        L.push(row(i+1,e.prod.n,e.prod.u||"",e.r.hasil,
+          Math.round(e.r.hppPcs),Math.round(e.r.hjAmanPcs),
+          Math.round(e.r.totalBahan),Math.round(e.r.totalTKBatch),Math.round(e.r.totalOHBatch),mg+"%"));
+      });
+      L.push(row(""));
+    }
+    L.push(row("BAHAN BAKU"));
+    L.push(row("Nama","Kategori","Satuan","Harga/Satuan","Qty/Batch","Status"));
+    bahan.forEach(b=>L.push(row(b.nama,b.kat,b.satuan,b.harga,b.qty,b.on?"Aktif":"Nonaktif")));
+
+    const csv = "\uFEFF" + L.join("\n");
+    const fname = "HPP_JayaBerkah_" + new Date().toISOString().slice(0,10) + ".csv";
+
+    // Method 1: Blob + click (works on some Android)
+    try {
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = fname;
+      a.style.cssText = "position:fixed;top:-100px";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},3000);
+    } catch(e){}
+
+    // Method 2: Always also show the modal with copy option as backup
+    const laporan = buildLaporan(computed, mg);
+    if(window._showExportModal) window._showExportModal(laporan, csv, fname);
+    setCsvOK(true);
+    setTimeout(()=>setCsvOK(false),5000);
+  };
+  const handleCopy = () => {
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(exportText).then(()=>{setCopied(true);setTimeout(()=>setCopied(false),2000);});
+    } else {
+      // fallback: select textarea
+      const ta = document.getElementById('export-ta');
+      if(ta){ta.select();document.execCommand('copy');setCopied(true);setTimeout(()=>setCopied(false),2000);}
+    }
+  };
+  const handleShare = () => {
+    if(navigator.share){
+      navigator.share({title:'Laporan HPP Jaya Berkah', text: exportText});
+    }
+  };
+  const pavGrps = ["Semua", ...[...new Set(pavP.map((p) => p.g))]];
+  const buiGrps = ["Semua", ...[...new Set(buisP.map((p) => p.g))]];
+  const TABS = [
+    { id: "produk", label: "Produk", ico: null, img: "paving" },
+    { id: "hpp", label: "HPP", ico: "\u{1F4CA}", img: null },
+    { id: "bahan", label: "Bahan", ico: "\u2697\uFE0F", img: null },
+    { id: "master", label: "Master", ico: "\u{1F4CB}", img: null },
+    { id: "biaya", label: "Biaya", ico: "\u2699\uFE0F", img: null }
+  ];
+  return /* @__PURE__ */ React.createElement("div", { style: { minHeight: "100vh", background: C.bg, color: C.tx, fontFamily: "-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif", paddingBottom: 100 } }, /* @__PURE__ */ React.createElement("style", null, `
+      *{box-sizing:border-box;margin:0;padding:0}
+      input,select{outline:none;-webkit-appearance:none;font-family:inherit}
+      ::-webkit-scrollbar{width:3px;height:3px}
+      ::-webkit-scrollbar-track{background:transparent}
+      ::-webkit-scrollbar-thumb{background:${C.br};border-radius:2px}
+      @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+      .rise{animation:rise .25s cubic-bezier(.34,1.56,.64,1) forwards}
+      button:active{transform:scale(.96)!important}
+      .ptap:active{transform:scale(.97);background:${C.c3}!important}
+    `), /* @__PURE__ */ React.createElement("div", { style: {
+    background: "rgba(240,244,255,0.85)",
+    backdropFilter: "blur(20px)",
+    WebkitBackdropFilter: "blur(20px)",
+    borderBottom: `1px solid ${C.br}`,
+    padding: "14px 16px 12px",
+    position: "sticky",
+    top: 0,
+    zIndex: 99
+  } }, /* @__PURE__ */ React.createElement("div", { style: { maxWidth: 760, margin: "0 auto" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement("div", { style: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    background: `linear-gradient(135deg,${JBL},#fff)`,
+    border: `1.5px solid ${JB}33`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    boxShadow: `0 2px 8px ${JBA}`
+  } }, /* @__PURE__ */ React.createElement(JBLogo, { size: 30 })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 17, fontWeight: 800, color: JBD, letterSpacing: -0.3 } }, "Jaya Berkah"), /* @__PURE__ */ React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 14 14" }, /* @__PURE__ */ React.createElement("polygon", { points: "7,1 13,4.5 13,9.5 7,13 1,9.5 1,4.5", fill: HEX, opacity: ".9" })), /* @__PURE__ */ React.createElement("svg", { width: "10", height: "10", viewBox: "0 0 10 10" }, /* @__PURE__ */ React.createElement("polygon", { points: "5,1 9,3.5 9,6.5 5,9 1,6.5 1,3.5", fill: GRY, opacity: ".7" }))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: C.mt, fontWeight: 500, letterSpacing: 0.2 } }, bahan.filter((b) => b.on).length, " bahan \xB7 ", computed.length, " produk dihitung"))), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: handleCSV,
+      disabled: !computed.length,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "9px 14px",
+        background: computed.length ? `linear-gradient(135deg,${JB},${JBD})` : "#E0E7FF",
+        color: computed.length ? "#fff" : C.dm,
+        border: "none",
+        borderRadius: 12,
+        fontSize: 12,
+        fontWeight: 600,
+        cursor: computed.length ? "pointer" : "not-allowed",
+        boxShadow: computed.length ? `0 2px 8px ${JBA}` : "none",
+        transition: "all .2s"
+      }
+    },
+    csvOK ? /* @__PURE__ */ React.createElement("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none" }, /* @__PURE__ */ React.createElement("polyline", { points: "20 6 9 17 4 12", stroke: "#fff", strokeWidth: "2.5", strokeLinecap: "round", strokeLinejoin: "round" })) : /* @__PURE__ */ React.createElement(IcoDownload, { size: 16 }),
+    /* @__PURE__ */ React.createElement("span", null, csvOK ? "Downloaded!" : "Export Excel")
+  )), /* @__PURE__ */ React.createElement("div", { style: {
+    display: "flex",
+    background: C.c1,
+    borderRadius: 14,
+    padding: "4px",
+    boxShadow: "0 1px 6px rgba(66,133,244,.1)"
+  } }, TABS.map((t) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: t.id,
+      onClick: () => setTab(t.id),
+      style: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 2,
+        padding: "6px 4px",
+        background: tab === t.id ? JB : "transparent",
+        color: tab === t.id ? "#fff" : C.mt,
+        border: "none",
+        borderRadius: 10,
+        fontSize: 9,
+        fontWeight: tab === t.id ? 700 : 500,
+        cursor: "pointer",
+        transition: "all .18s",
+        boxShadow: tab === t.id ? `0 2px 8px ${JBA}` : "none"
+      }
+    },
+    t.id === "produk" ? /* @__PURE__ */ React.createElement(IconPaving, { size: 20 }) : /* @__PURE__ */ React.createElement("span", { style: { fontSize: 18, lineHeight: 1 } }, t.ico),
+    /* @__PURE__ */ React.createElement("span", { style: { letterSpacing: 0.3 } }, t.label)
+  ))))), /* @__PURE__ */ React.createElement("div", { style: { maxWidth: 760, margin: "0 auto", padding: "14px 14px 0" } }, tab === "produk" && /* @__PURE__ */ React.createElement("div", { className: "rise" }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 12 } }, [{ id: "paving", l: "paving", n: pavP.length }, { id: "buis", l: "buis", n: buisP.length }].map(
+    (t) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: t.id,
+        onClick: () => {
+          setGrp(t.id);
+          setFGrp("Semua");
+        },
+        style: {
+          padding: "10px 12px",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          background: grp === t.id ? JB : C.c1,
+          color: grp === t.id ? "#fff" : C.t2,
+          border: `1.5px solid ${grp === t.id ? JB : C.br}`,
+          borderRadius: 16,
+          fontSize: 13,
+          fontWeight: 600,
+          cursor: "pointer",
+          boxShadow: grp === t.id ? `0 3px 10px ${JBA}` : "0 1px 4px rgba(66,133,244,.06)",
+          transition: "all .18s",
+          justifyContent: "center"
+        }
+      },
+      t.l === "paving" ? /* @__PURE__ */ React.createElement(IconPaving, { size: 22 }) : /* @__PURE__ */ React.createElement(IconBuis, { size: 22 }),
+      /* @__PURE__ */ React.createElement("span", null, t.l === "paving" ? "Paving Block" : "Buis & Beton"),
+      /* @__PURE__ */ React.createElement("span", { style: { opacity: 0.7, fontSize: 11 } }, "(", t.n, ")")
+    )
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 } }, (grp === "paving" ? pavGrps : buiGrps).map(
+    (g) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: g,
+        onClick: () => setFGrp(g),
+        style: {
+          padding: "6px 14px",
+          background: fGrp === g ? JBL : C.c1,
+          color: fGrp === g ? JBD : C.mt,
+          border: `1px solid ${fGrp === g ? JB + "55" : C.br}`,
+          borderRadius: 20,
+          fontSize: 12,
+          fontWeight: 600,
+          cursor: "pointer",
+          transition: "all .15s"
+        }
+      },
+      g
+    )
+  )), grp === "paving" && (() => {
+    const fil = fGrp === "Semua" ? pavP : pavP.filter((p) => p.g === fGrp);
+    const grps = [...new Set(fil.map((p) => p.g))];
+    return grps.map((g) => /* @__PURE__ */ React.createElement("div", { key: g, style: { marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: JBD, marginBottom: 8, paddingLeft: 2 } }, g), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } }, fil.filter((p) => p.g === g).map((prod) => {
+      const added = items.some((i) => i.prod.id === prod.id);
+      const mc = MS[prod.m] || MS["\u2014"];
+      return /* @__PURE__ */ React.createElement(
+        "div",
+        {
+          key: prod.id,
+          className: "ptap",
+          onClick: () => {
+            var _a;
+            return added ? delItem((_a = items.find((i) => i.prod.id === prod.id)) == null ? void 0 : _a.id) : addItem(prod);
+          },
+          style: {
+            background: added ? JBL : C.c1,
+            border: `1.5px solid ${added ? JB : C.br}`,
+            borderRadius: 16,
+            padding: "12px",
+            cursor: added ? "default" : "pointer",
+            boxShadow: added ? `0 2px 8px ${JBA}` : "0 1px 4px rgba(66,133,244,.06)",
+            transition: "all .18s"
+          }
+        },
+        /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: added ? JBD : C.tx, lineHeight: 1.3, flex: 1, paddingRight: 4 } }, prod.n), added && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, color: C.gn } }, "\u2713"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 8, color: C.gn, opacity: 0.7 } }, "hapus"))),
+        /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 6 } }, /* @__PURE__ */ React.createElement(MChip, { m: prod.m, sm: true }), /* @__PURE__ */ React.createElement("span", { style: { background: C.c2, color: C.mt, borderRadius: 8, padding: "2px 7px", fontSize: 10, fontWeight: 500 } }, prod.p, "/m\xB2"), /* @__PURE__ */ React.createElement("span", { style: { background: C.c2, color: C.mt, borderRadius: 8, padding: "2px 7px", fontSize: 10, fontWeight: 500 } }, prod.t || "")),
+        /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm } }, "Borongan TK"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.gn, fontWeight: 700 } }, "Rp ", (prod.b || 0).toLocaleString("id-ID")))
+      );
+    }))));
+  })(), grp === "buis" && (() => {
+    const fil = fGrp === "Semua" ? buisP : buisP.filter((p) => p.g === fGrp);
+    const grps = [...new Set(fil.map((p) => p.g))];
+    return grps.map((g) => /* @__PURE__ */ React.createElement("div", { key: g, style: { marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: JBD, marginBottom: 8, paddingLeft: 2 } }, g), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 } }, fil.filter((p) => p.g === g).map((prod) => {
+      const added = items.some((i) => i.prod.id === prod.id);
+      return /* @__PURE__ */ React.createElement(
+        "div",
+        {
+          key: prod.id,
+          className: "ptap",
+          onClick: () => {
+            var _a;
+            return added ? delItem((_a = items.find((i) => i.prod.id === prod.id)) == null ? void 0 : _a.id) : addItem(prod);
+          },
+          style: {
+            background: added ? JBL : C.c1,
+            border: `1.5px solid ${added ? JB : C.br}`,
+            borderRadius: 16,
+            padding: "12px",
+            cursor: added ? "default" : "pointer",
+            boxShadow: added ? `0 2px 8px ${JBA}` : "0 1px 4px rgba(66,133,244,.06)",
+            transition: "all .18s"
+          }
+        },
+        /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 5 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: added ? JBD : C.tx, lineHeight: 1.3, flex: 1, paddingRight: 4 } }, prod.n), added && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, color: C.gn } }, "\u2713"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 8, color: C.gn, opacity: 0.7 } }, "hapus"))),
+        /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: C.dm, marginBottom: 5 } }, prod.u || "\u2014"),
+        /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm } }, "Borongan TK"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.gn, fontWeight: 700 } }, "Rp ", (prod.b || 0).toLocaleString("id-ID")))
+      );
+    }))));
+  })()), tab === "hpp" && /* @__PURE__ */ React.createElement("div", { className: "rise" }, computed.length === 0 && /* @__PURE__ */ React.createElement(Alert, { type: "warn" }, "Belum ada produk. Pilih di tab Produk dulu."), /* @__PURE__ */ React.createElement(Card, { sx: { padding: "12px 14px", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: C.mt, marginRight: 4 } }, "MARGIN:"), [10, 15, 20, 25, 30].map(
+    (m) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: m,
+        onClick: () => {
+          setMG(m);
+          setCMG("");
+        },
+        style: {
+          padding: "5px 10px",
+          background: margin === m && !cMG ? JB : C.c2,
+          color: margin === m && !cMG ? "#fff" : C.mt,
+          border: `1px solid ${margin === m && !cMG ? JB : C.br}`,
+          borderRadius: 20,
+          fontSize: 12,
+          fontWeight: 600,
+          cursor: "pointer"
+        }
+      },
+      m,
+      "%"
+    )
+  ), /* @__PURE__ */ React.createElement(
+    NInp,
+    {
+      val: cMG,
+      set: setCMG,
+      suf: "%",
+      sx: { width: 80, marginBottom: 0 },
+      hint: cMG ? `\u2192 ${nv(cMG)}%` : "custom"
+    }
+  )), /* @__PURE__ */ React.createElement("div", { style: { background: C.c2, borderRadius: 12, padding: "10px 12px", border: `1px solid ${C.br}` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: JBD, marginBottom: 4 } }, "\u{1F3ED} Total Produksi Pabrik / Hari"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10 } }, /* @__PURE__ */ React.createElement(
+    NInp,
+    {
+      val: prodH === 450 ? "" : prodH,
+      set: (v) => setProdH(v === "" ? 450 : nv(v)),
+      suf: "pcs/hari",
+      placeholder: "cth: 2450",
+      sx: { flex: 1, marginBottom: 0 }
+    }
+  ), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm, lineHeight: 1.5, flex: 1 } }, "Contoh: 5 mesin \xD7 450 + manual 200 = ", /* @__PURE__ */ React.createElement("b", null, "2.450"), /* @__PURE__ */ React.createElement("br", null), "Dipakai untuk membagi biaya TK harian & overhead ke tiap batch")), prodH === 450 && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.or, marginTop: 4 } }, "\u26A0\uFE0F Masih default 450 \u2014 isi total produksi pabrik/hari agar overhead tidak salah"))), computed.map((e) => {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+    const r = e.r;
+    const isPaving = e.prod.j === "paving";
+    const hasHasil = r !== null;
+    return /* @__PURE__ */ React.createElement(Card, { key: e.id, sx: { padding: 0, overflow: "hidden", marginBottom: 14 } }, /* @__PURE__ */ React.createElement("div", { style: { background: `linear-gradient(135deg,${JBD},${JB})`, padding: "13px 15px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 2 } }, isPaving ? /* @__PURE__ */ React.createElement(IconPaving, { size: 20 }) : /* @__PURE__ */ React.createElement(IconBuis, { size: 20 }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 14, fontWeight: 700, color: "#fff" } }, e.prod.n), isPaving && /* @__PURE__ */ React.createElement(MChip, { m: e.prod.m, sm: true })), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "rgba(255,255,255,0.7)" } }, isPaving ? `${e.prod.p} pcs/m\xB2 \xB7 ${e.prod.t || ""}` : e.prod.u || "per biji", !hasHasil && /* @__PURE__ */ React.createElement("span", { style: { color: "#FFD600", fontWeight: 600 } }, " \xB7 \u26A0\uFE0F Isi hasil/batch dulu"))), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "right", display: "flex", alignItems: "center", gap: 8 } }, hasHasil && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "rgba(255,255,255,0.6)" } }, "HPP", isPaving ? "/m\xB2" : "/biji"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 20, fontWeight: 800, color: "#fff" } }, rp(isPaving ? r.hppM2 : r.hppPcs)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "rgba(255,255,255,0.6)" } }, "HJ Aman: ", rp(isPaving ? r.hjAman : r.hjAmanPcs))), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => delItem(e.id),
+        style: {
+          background: "rgba(255,255,255,0.15)",
+          border: "none",
+          cursor: "pointer",
+          borderRadius: 8,
+          padding: "6px",
+          width: 30,
+          height: 30,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }
+      },
+      /* @__PURE__ */ React.createElement(IcoTrash, { size: 13, color: "#fff" })
+    )))), /* @__PURE__ */ React.createElement("div", { style: { padding: "13px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.rd, marginBottom: 4 } }, "\u26A0\uFE0F HASIL/BATCH ", /* @__PURE__ */ React.createElement("span", { style: { color: C.dm, fontWeight: 400 } }, "(wajib)")), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.hasil || "",
+        set: (v) => updQM(e.id, "hasil", v === "" ? "" : nv(v)),
+        suf: "pcs",
+        placeholder: "cth: 450",
+        hint: "Hasil pcs dari 1 batch bahan"
+      }
+    )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: C.mt, marginBottom: 4 } }, "Aktual lapangan"), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.aktual || "",
+        set: (v) => updQM(e.id, "aktual", v),
+        suf: "pcs",
+        placeholder: "opsional",
+        hint: "Menggantikan hasil estimasi"
+      }
+    )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: C.mt, marginBottom: 4 } }, "Produksi pabrik/hari"), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.prodHarian === "" || e.qm.prodHarian === void 0 ? "" : e.qm.prodHarian,
+        set: (v) => updQM(e.id, "prodHarian", v === "" ? "" : nv(v)),
+        suf: "pcs",
+        placeholder: String(prodH),
+        hint: "Total pcs semua mesin/hari"
+      }
+    ))), /* @__PURE__ */ React.createElement("div", { style: { border: `1.5px solid ${JB}33`, borderRadius: 14, marginBottom: 10, overflow: "hidden" } }, /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => {
+          var _a2;
+          return updDetail(e.id, "bahan", !((_a2 = e.qm.showDetail) == null ? void 0 : _a2.bahan));
+        },
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 13px",
+          cursor: "pointer",
+          background: ((_a = e.qm.showDetail) == null ? void 0 : _a.bahan) ? C.c2 : C.c1
+        }
+      },
+      /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: JBD } }, "\u{1F9F1} A. Bahan Baku"), hasHasil && /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, "total/batch: ", /* @__PURE__ */ React.createElement("b", { style: { color: JBD } }, rp(r.totalBahan)), /* @__PURE__ */ React.createElement("span", { style: { color: C.dm } }, " (", Math.round(r.pctUtama + r.pctPendukung), "% HPP)"))),
+      /* @__PURE__ */ React.createElement(IcoChevron, { up: !!((_b = e.qm.showDetail) == null ? void 0 : _b.bahan), color: JBD, size: 14 })
+    ), ((_c = e.qm.showDetail) == null ? void 0 : _c.bahan) && /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 13px", background: C.c2 } }, r && r.bUtama.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: JB, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 } }, "Bahan Utama"), r.bUtama.map((b) => {
+      var _a2, _b2, _c2, _d2;
+      return /* @__PURE__ */ React.createElement("div", { key: b.id, style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "6px 0",
+        borderBottom: `1px solid ${C.br}`
+      } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 600, color: C.tx } }, b.nama), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, marginLeft: 6 } }, rp(b.harga), "/", b.satuan)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 } }, /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "text",
+          inputMode: "decimal",
+          value: ((_a2 = e.qm.komposisi) == null ? void 0 : _a2[b.id]) !== void 0 ? e.qm.komposisi[b.id] : b.qty,
+          onChange: (ev) => {
+            const v = ev.target.value;
+            if (v === "" || /^\d*\.?\d*$/.test(v)) updKomposisi(e.id, b.id, v);
+          },
+          style: {
+            width: 60,
+            background: ((_b2 = e.qm.komposisi) == null ? void 0 : _b2[b.id]) !== void 0 ? JBL : C.c1,
+            border: `1.5px solid ${((_c2 = e.qm.komposisi) == null ? void 0 : _c2[b.id]) !== void 0 ? JB : C.br}`,
+            borderRadius: 8,
+            color: JBD,
+            padding: "4px 6px",
+            fontSize: 12,
+            textAlign: "center",
+            outline: "none"
+          }
+        }
+      ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, width: 28 } }, b.satuan), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: JBD, minWidth: 65, textAlign: "right" } }, b.qtyBatch > 0 ? rp(b.subtotal) : "\u2014"), ((_d2 = e.qm.komposisi) == null ? void 0 : _d2[b.id]) !== void 0 && /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          onClick: () => updKomposisi(e.id, b.id, void 0),
+          style: { background: "none", border: "none", color: C.dm, cursor: "pointer", fontSize: 11 }
+        },
+        "\u21BA"
+      )));
+    }), /* @__PURE__ */ React.createElement("div", { style: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "6px 0",
+      borderTop: `1.5px solid ${JB}33`,
+      marginTop: 4
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: JBD } }, "Subtotal Bahan Utama"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: JBD } }, r && rp(r.totalUtama)))), r && r.bTambahan.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.vi, marginBottom: 6, marginTop: 10, textTransform: "uppercase", letterSpacing: 0.5 } }, "Pewarna / Additive"), r.bTambahan.map((b) => /* @__PURE__ */ React.createElement("div", { key: b.id, style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      padding: "6px 0",
+      borderBottom: `1px solid ${C.br}`
+    } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: 12, color: C.tx } }, b.nama), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.vi, fontWeight: 600 } }, rp(b.subtotal)))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", padding: "5px 0", borderTop: `1px solid ${C.br}` } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: C.vi } }, "Subtotal Tambahan"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: C.vi } }, r && rp(r.totalTambahan)))), r && r.bPendukung.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.mt, marginBottom: 6, marginTop: 10, textTransform: "uppercase", letterSpacing: 0.5 } }, "Bahan Pendukung"), r.bPendukung.map((b) => {
+      var _a2, _b2, _c2;
+      return /* @__PURE__ */ React.createElement("div", { key: b.id, style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "6px 0",
+        borderBottom: `1px solid ${C.br}`
+      } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.tx } }, b.nama), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, marginLeft: 6 } }, rp(b.harga), "/", b.satuan)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 4 } }, /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "text",
+          inputMode: "decimal",
+          value: ((_a2 = e.qm.komposisi) == null ? void 0 : _a2[b.id]) !== void 0 ? e.qm.komposisi[b.id] : b.qty,
+          onChange: (ev) => {
+            const v = ev.target.value;
+            if (v === "" || /^\d*\.?\d*$/.test(v)) updKomposisi(e.id, b.id, v);
+          },
+          style: {
+            width: 60,
+            background: ((_b2 = e.qm.komposisi) == null ? void 0 : _b2[b.id]) !== void 0 ? JBL : C.c1,
+            border: `1.5px solid ${((_c2 = e.qm.komposisi) == null ? void 0 : _c2[b.id]) !== void 0 ? JB : C.br}`,
+            borderRadius: 8,
+            color: C.mt,
+            padding: "4px 6px",
+            fontSize: 12,
+            textAlign: "center",
+            outline: "none"
+          }
+        }
+      ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, width: 28 } }, b.satuan), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: C.mt, minWidth: 65, textAlign: "right" } }, b.qtyBatch > 0 ? rp(b.subtotal) : "\u2014")));
+    }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", padding: "5px 0", borderTop: `1px solid ${C.br}` } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: C.mt } }, "Subtotal Pendukung"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: C.mt } }, r && rp(r.totalPendukung)))))), /* @__PURE__ */ React.createElement("div", { style: { border: `1.5px solid ${C.gn}44`, borderRadius: 14, marginBottom: 10, overflow: "hidden" } }, /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => {
+          var _a2;
+          return updDetail(e.id, "tk", !((_a2 = e.qm.showDetail) == null ? void 0 : _a2.tk));
+        },
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 13px",
+          cursor: "pointer",
+          background: ((_d = e.qm.showDetail) == null ? void 0 : _d.tk) ? C.gnl : C.c1
+        }
+      },
+      /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "#1A7A3A" } }, "\u{1F477} B. Tenaga Kerja"), hasHasil && /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, "total/batch: ", /* @__PURE__ */ React.createElement("b", { style: { color: "#1A7A3A" } }, rp(r.totalTKBatch)), /* @__PURE__ */ React.createElement("span", { style: { color: C.dm } }, " (", Math.round(r.pctTK), "% HPP)"))),
+      /* @__PURE__ */ React.createElement(IcoChevron, { up: !!((_e = e.qm.showDetail) == null ? void 0 : _e.tk), color: "#1A7A3A", size: 14 })
+    ), ((_f = e.qm.showDetail) == null ? void 0 : _f.tk) && /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 13px", background: C.gnl } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#1A7A3A", marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 } }, "Borongan (per biji)"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8, padding: "8px 0", borderBottom: `1px solid ${C.gn}22` } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 600, color: C.tx } }, "Borongan cetak"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, marginLeft: 6 } }, "per biji")), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.tkBor === 0 ? "" : e.qm.tkBor || e.prod.b || "",
+        set: (v) => updQM(e.id, "tkBor", v === "" ? 0 : nv(v)),
+        pre: "Rp",
+        sm: true,
+        sx: { width: 100, marginBottom: 0 },
+        placeholder: String(e.prod.b || 0)
+      }
+    ), hasHasil && /* @__PURE__ */ React.createElement("div", { style: { textAlign: "right", minWidth: 80 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm } }, "\xD7 ", r.hasil, " pcs"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#1A7A3A" } }, rp(r.tkBorBatch)))), /* @__PURE__ */ React.createElement("div", { style: { background: "#E8FFF0", borderRadius: 10, padding: "8px 10px", margin: "6px 0", border: "1px solid #86EFAC" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#166534", marginBottom: 6 } }, "Biaya Sortir (nominal \xF7 jumlah biji)"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 4 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#166534", marginBottom: 3 } }, "Nominal sortir"), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.sortirNominal || "",
+        set: (v) => updQM(e.id, "sortirNominal", v),
+        pre: "Rp",
+        sm: true,
+        placeholder: "cth: 250000",
+        sx: { marginBottom: 0 }
+      }
+    )), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: "#166534", marginBottom: 3 } }, "\xF7 Jumlah biji disortir"), /* @__PURE__ */ React.createElement(
+      NInp,
+      {
+        val: e.qm.sortirBiji || "",
+        set: (v) => updQM(e.id, "sortirBiji", v),
+        suf: "biji",
+        sm: true,
+        placeholder: "cth: 5000",
+        sx: { marginBottom: 0 }
+      }
+    ))), nv(e.qm.sortirNominal) > 0 && nv(e.qm.sortirBiji) > 0 && /* @__PURE__ */ React.createElement("div", { style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingTop: 6,
+      borderTop: "1px solid #86EFAC"
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: "#166534" } }, rp(nv(e.qm.sortirNominal)), " \xF7 ", nv(e.qm.sortirBiji).toLocaleString("id-ID"), " biji = ", /* @__PURE__ */ React.createElement("b", null, rp(Math.round(r.sortirPerBiji)), "/biji"), "\xD7 ", hasHasil ? r.hasil : 0, " pcs"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "#166534" } }, hasHasil ? rp(Math.round(r.sortirBatch)) : "\u2014")), (!nv(e.qm.sortirNominal) || !nv(e.qm.sortirBiji)) && /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "#166534", opacity: 0.6 } }, "Isi nominal dan jumlah biji untuk menghitung biaya sortir")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: "#1A7A3A", marginTop: 10, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 } }, "Harian (dibagi ke produk ini)"), tkH.map((t) => {
+      var _a2;
+      const aktif = ((_a2 = e.qm.tkOvr) == null ? void 0 : _a2[t.id]) !== void 0 ? e.qm.tkOvr[t.id] : t.on;
+      const ph = nv(e.qm.prodHarian) || nv(prodH) || 1;
+      const perHari = nv(t.harga) * (t.per === "minggu" ? 1 / 6 : t.per === "bulan" ? 1 / 26 : 1);
+      const perBatch = hasHasil ? perHari / ph * r.hasil : 0;
+      return /* @__PURE__ */ React.createElement("div", { key: t.id, style: { marginBottom: 4 } }, /* @__PURE__ */ React.createElement("div", { style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "6px 0",
+        opacity: aktif ? 1 : 0.5
+      } }, /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "checkbox",
+          checked: aktif,
+          onChange: () => updTkOvr(e.id, t.id, !aktif),
+          style: { width: 16, height: 16, cursor: "pointer", accentColor: C.gn, flexShrink: 0 }
+        }
+      ), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: aktif ? C.tx : C.dm } }, t.nama), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, marginLeft: 6 } }, rp(nv(t.harga)), "/", t.per)), aktif && /* @__PURE__ */ React.createElement("div", { style: { textAlign: "right", flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: C.dm } }, "per batch"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 600, color: "#1A7A3A" } }, rp(Math.round(perBatch))))));
+    }), hasHasil && /* @__PURE__ */ React.createElement("div", { style: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "6px 0",
+      borderTop: `1.5px solid ${C.gn}44`,
+      marginTop: 4
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#1A7A3A" } }, "Total TK / batch"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 800, color: "#1A7A3A" } }, rp(r.totalTKBatch))))), /* @__PURE__ */ React.createElement("div", { style: { border: `1.5px solid ${C.or}44`, borderRadius: 14, marginBottom: 10, overflow: "hidden" } }, /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => {
+          var _a2;
+          return updDetail(e.id, "oh", !((_a2 = e.qm.showDetail) == null ? void 0 : _a2.oh));
+        },
+        style: {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "10px 13px",
+          cursor: "pointer",
+          background: ((_g = e.qm.showDetail) == null ? void 0 : _g.oh) ? C.orl : C.c1
+        }
+      },
+      /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 8 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: "#B85C00" } }, "\u2699\uFE0F C. Overhead"), hasHasil && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, "total/batch: ", /* @__PURE__ */ React.createElement("b", { style: { color: "#B85C00" } }, rp(r.totalOHBatch)), /* @__PURE__ */ React.createElement("span", { style: { color: C.dm } }, " (", Math.round(r.pctOH), "% HPP)")), r.pctOH > 60 && /* @__PURE__ */ React.createElement("span", { style: {
+        background: C.rdl,
+        color: C.rd,
+        fontSize: 9,
+        fontWeight: 700,
+        borderRadius: 6,
+        padding: "2px 6px"
+      } }, "\u26A0\uFE0F TERLALU TINGGI"))),
+      /* @__PURE__ */ React.createElement(IcoChevron, { up: !!((_h = e.qm.showDetail) == null ? void 0 : _h.oh), color: "#B85C00", size: 14 })
+    ), ((_i = e.qm.showDetail) == null ? void 0 : _i.oh) && /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 13px", background: C.orl } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "#B85C00", marginBottom: 8, lineHeight: 1.5 } }, "Metode: ", /* @__PURE__ */ React.createElement("b", null, "hari"), " = dibagi produksi/hari \xD7 hasil batch | ", /* @__PURE__ */ React.createElement("b", null, "batch"), " = langsung per batch"), oh.map((o) => {
+      var _a2, _b2;
+      const ph = nv(e.qm.prodHarian) || nv(prodH) || 1;
+      const h = nv(o.harga);
+      const perHari = o.per === "minggu" ? h / 6 : o.per === "bulan" ? h / 26 : h;
+      const metode = ((_b2 = (_a2 = e.qm.ohOvr) == null ? void 0 : _a2[o.id]) == null ? void 0 : _b2.metode) || o.metode || "hari";
+      const beban = hasHasil ? metode === "hari" ? perHari / ph * r.hasil : h : 0;
+      return /* @__PURE__ */ React.createElement("div", { key: o.id, style: { padding: "6px 0", borderBottom: `1px solid ${C.or}22` } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 2 } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: 12, color: C.tx } }, o.nama), /* @__PURE__ */ React.createElement(
+        "select",
+        {
+          value: metode,
+          onChange: (ev) => updOhOvr(e.id, o.id, "metode", ev.target.value),
+          style: {
+            fontSize: 10,
+            background: "#fff",
+            border: `1px solid ${C.or}44`,
+            borderRadius: 6,
+            padding: "2px 6px",
+            color: "#B85C00",
+            outline: "none"
+          }
+        },
+        /* @__PURE__ */ React.createElement("option", { value: "hari" }, "per hari"),
+        /* @__PURE__ */ React.createElement("option", { value: "batch" }, "per batch"),
+        /* @__PURE__ */ React.createElement("option", { value: "pcs" }, "per pcs")
+      ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm } }, rp(h), "/", o.per), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: "#B85C00", minWidth: 70, textAlign: "right" } }, hasHasil ? rp(Math.round(beban)) : "\u2014")));
+    }), hasHasil && /* @__PURE__ */ React.createElement("div", { style: {
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "6px 0",
+      borderTop: `1.5px solid ${C.or}44`,
+      marginTop: 4
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 700, color: "#B85C00" } }, "Total Overhead / batch"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 800, color: "#B85C00" } }, rp(r.totalOHBatch))))), hasHasil && /* @__PURE__ */ React.createElement("div", { style: { background: JBL, border: `1.5px solid ${JB}33`, borderRadius: 14, padding: "13px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: JBD, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.5 } }, "\u{1F4CA} Ringkasan HPP"), /* @__PURE__ */ React.createElement("div", { style: {
+      background: "#fff",
+      borderRadius: 10,
+      padding: "8px 11px",
+      marginBottom: 10,
+      fontSize: 11,
+      color: C.t2,
+      lineHeight: 1.7,
+      border: `1px solid ${C.br}`
+    } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("b", { style: { color: JBD } }, rp(r.totalBahan)), " bahan + ", /* @__PURE__ */ React.createElement("b", { style: { color: "#1A7A3A" } }, rp(r.totalTKBatch)), " TK + ", /* @__PURE__ */ React.createElement("b", { style: { color: "#B85C00" } }, rp(r.totalOHBatch)), " OH = ", /* @__PURE__ */ React.createElement("b", { style: { color: JBD } }, rp(r.totalBatch)), " total/batch"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("b", { style: { color: JBD } }, rp(r.totalBatch)), "\xF7 ", /* @__PURE__ */ React.createElement("b", null, r.hasil, " pcs"), " \xD7 ", /* @__PURE__ */ React.createElement("b", null, isPaving ? `${e.prod.p} pcs/m\xB2` : "1"), "= ", /* @__PURE__ */ React.createElement("b", { style: { color: JBD, fontSize: 13 } }, rp(isPaving ? r.hppM2 : r.hppPcs)), " HPP", isPaving ? "/m\xB2" : "/biji")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", height: 8, borderRadius: 4, overflow: "hidden", marginBottom: 6 } }, /* @__PURE__ */ React.createElement("div", { style: { width: `${r.pctUtama + r.pctPendukung}%`, background: JB } }), /* @__PURE__ */ React.createElement("div", { style: { width: `${r.pctTK}%`, background: C.gn } }), /* @__PURE__ */ React.createElement("div", { style: { width: `${r.pctOH}%`, background: C.or } })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 10, fontSize: 10, color: C.dm, marginBottom: 12 } }, /* @__PURE__ */ React.createElement("span", { style: { color: JBD } }, "\u25A0 Bahan ", Math.round(r.pctUtama + r.pctPendukung), "%"), /* @__PURE__ */ React.createElement("span", { style: { color: C.gn } }, "\u25A0 TK ", Math.round(r.pctTK), "%"), /* @__PURE__ */ React.createElement("span", { style: { color: r.pctOH > 60 ? C.rd : C.or } }, "\u25A0 OH ", Math.round(r.pctOH), "%", r.pctOH > 60 ? " \u26A0\uFE0F" : "")), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: isPaving ? "1fr 1fr 1fr" : "1fr 1fr", gap: 8, marginBottom: 10 } }, /* @__PURE__ */ React.createElement(KBox, { label: "HPP/biji", val: rp(r.hppPcs) }), isPaving && /* @__PURE__ */ React.createElement(KBox, { label: "HPP/m\xB2", val: rp(r.hppM2), hi: true }), /* @__PURE__ */ React.createElement(KBox, { label: isPaving ? "HJ Aman/m\xB2" : "HJ Aman/biji", val: rp(isPaving ? r.hjAman : r.hjAmanPcs), hi: true })), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 600, color: C.mt, marginBottom: 5 } }, "Skenario Harga Jual"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 4 } }, [
+      { l: "Min", v: r.hjMin, s: "10%" },
+      { l: "Aman \u2605", v: r.hjAman, s: `${mg}%`, hi: true },
+      { l: "Ideal", v: r.hjIdeal, s: `${mg + 5}%` },
+      { l: "Grosir", v: r.hjGros, s: "-7%" },
+      { l: "Proyek", v: r.hjProj, s: "+10%" }
+    ].map(
+      ({ l, v, s, hi }) => /* @__PURE__ */ React.createElement("div", { key: l, style: {
+        background: hi ? JB : C.c1,
+        border: `1px solid ${hi ? JB : C.br}`,
+        borderRadius: 10,
+        padding: "7px 4px",
+        textAlign: "center"
+      } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, fontWeight: 600, color: hi ? "rgba(255,255,255,0.8)" : C.dm, marginBottom: 2 } }, l), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: hi ? "#fff" : C.tx, lineHeight: 1.2 } }, rp(v)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: hi ? "rgba(255,255,255,0.6)" : C.dm, marginTop: 1 } }, s))
+    )), e.qm.target && /* @__PURE__ */ React.createElement("div", { style: {
+      marginTop: 10,
+      background: r.wastePct > 5 ? C.rdl : C.gnl,
+      borderRadius: 10,
+      padding: "8px 11px",
+      fontSize: 11
+    } }, "\u{1F3AF} Target: ", e.qm.target, " pcs | Aktual: ", r.hasil, " pcs | Selisih: ", /* @__PURE__ */ React.createElement("b", { style: { color: r.wastePct > 0 ? C.rd : C.gn } }, r.selisih > 0 ? "+" : "", r.selisih, " pcs (", r.wastePct.toFixed(1), "% waste)"))), !hasHasil && /* @__PURE__ */ React.createElement("div", { style: {
+      background: "#FFF9E0",
+      border: "1.5px solid #F5C400",
+      borderRadius: 12,
+      padding: "13px",
+      textAlign: "center"
+    } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 16, marginBottom: 4 } }, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: "#7A5800", marginBottom: 4 } }, 'Isi "Hasil/Batch" dulu'), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: "#9A6E00", lineHeight: 1.6 } }, "Masukkan berapa pcs yang dihasilkan dari 1 batch bahan.", /* @__PURE__ */ React.createElement("br", null), "Contoh: 1 molen Bata K300 6cm = ", /* @__PURE__ */ React.createElement("b", null, "108 pcs")))));
+  })), tab === "bahan" && /* @__PURE__ */ React.createElement("div", { className: "rise" }, /* @__PURE__ */ React.createElement("div", { style: { background: C.orl, border: `1.5px solid ${C.or}66`, borderRadius: 18, padding: "14px", marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 14, fontWeight: 700, color: "#B85C00" } }, "\u{1F4C8} Kenaikan Harga Bahan"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: C.or, marginTop: 1 } }, "Simulasi dampak & rekomendasi HJ")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 6 } }, ["percent", "manual"].map(
+    (m) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: m,
+        onClick: () => {
+          setKhMode(m);
+          setShowKH(true);
+        },
+        style: {
+          padding: "6px 10px",
+          background: showKH && khMode === m ? C.or : C.c1,
+          color: showKH && khMode === m ? "#fff" : "#B85C00",
+          border: `1.5px solid ${C.or}66`,
+          borderRadius: 10,
+          fontSize: 11,
+          fontWeight: 600,
+          cursor: "pointer"
+        }
+      },
+      m === "percent" ? "% Naik" : "Harga Baru"
+    )
+  ), showKH && /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setShowKH(false),
+      style: {
+        padding: "6px 10px",
+        background: "transparent",
+        border: `1.5px solid ${C.or}44`,
+        borderRadius: 10,
+        fontSize: 11,
+        color: C.or,
+        cursor: "pointer",
+        fontWeight: 600
+      }
+    },
+    "Tutup \u2715"
+  ))), showKH && /* @__PURE__ */ React.createElement("div", { style: { marginTop: 12, borderTop: `1px solid ${C.or}33`, paddingTop: 12 } }, /* @__PURE__ */ React.createElement(
+    KenaikanHargaPanel,
+    {
+      bahan,
+      setBahan,
+      mode: khMode,
+      computed,
+      mg,
+      totalOutput: nv(prodH) || 450
+    }
+  ))), /* @__PURE__ */ React.createElement(Alert, { type: "ok" }, 'Bahan otomatis difilter per jenis produk. \u{1F9F1} Paving pakai bahan "Paving + Semua". \u2B55 Buis pakai "Buis + Semua".'), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 12 } }, [{ v: "semua", l: "\u{1F504} Semua" }, { v: "paving", l: "\u{1F9F1} Paving" }, { v: "buis", l: "\u2B55 Buis" }].map(
+    (t) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: t.v,
+        onClick: () => setFB(t.v),
+        style: {
+          padding: "9px",
+          background: fB === t.v ? JB : C.c1,
+          color: fB === t.v ? "#fff" : C.mt,
+          border: `1px solid ${fB === t.v ? JB : C.br}`,
+          borderRadius: 12,
+          fontSize: 12,
+          fontWeight: 600,
+          cursor: "pointer",
+          transition: "all .15s",
+          boxShadow: fB === t.v ? `0 2px 8px ${JBA}` : "none"
+        }
+      },
+      t.l
+    )
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.mt } }, bahan.filter((b) => b.on).length, "/", bahan.length, " bahan aktif"), /* @__PURE__ */ React.createElement(Btn, { v: "pri", sm: true, onClick: () => setShowAB((x) => !x) }, showAB ? "\u2715 Tutup" : "\uFF0B Tambah Bahan")), showAB && /* @__PURE__ */ React.createElement(Card, { sx: { border: `1.5px solid ${JB}44` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: JBD, marginBottom: 10 } }, "\uFF0B Bahan Baru"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama Bahan", val: fBn.nama, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { nama: v })), ph: "Fly Ash, Pigmen...", sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Satuan", val: fBn.satuan, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { satuan: v })), opts: SATUAN, sm: true })), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(NInp, { label: `Harga/${fBn.satuan}`, val: fBn.harga, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { harga: nv(v) })), pre: "Rp", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Qty/batch", val: fBn.qty, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { qty: nv(v) })), suf: fBn.satuan, sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Kategori", val: fBn.kat, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { kat: v })), opts: [{ v: "utama", l: "Bahan Utama" }, { v: "tambahan", l: "Pewarna/Additive" }, { v: "pendukung", l: "Pendukung" }], sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Untuk", val: fBn.untuk, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { untuk: v })), opts: [{ v: "semua", l: "\u{1F504} Semua" }, { v: "paving", l: "\u{1F9F1} Paving" }, { v: "buis", l: "\u2B55 Buis" }], sm: true })), /* @__PURE__ */ React.createElement(TInp, { label: "Keterangan", val: fBn.ket, set: (v) => setFBn((x) => __spreadProps(__spreadValues({}, x), { ket: v })), ph: "catatan opsional...", sm: true }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, marginTop: 8 } }, /* @__PURE__ */ React.createElement(Btn, { onClick: () => setShowAB(false), sx: { flex: 1, background: C.c2, color: C.t2 } }, "Batal"), /* @__PURE__ */ React.createElement(Btn, { v: "pri", onClick: () => {
+    if (!fBn.nama) return alert("Isi nama bahan.");
+    setBahan((b) => [...b, __spreadProps(__spreadValues({}, fBn), { id: uid(), on: true })]);
+    setFBn({ nama: "", satuan: "kg", harga: 0, qty: 0, kat: "utama", untuk: "semua", ket: "" });
+    setShowAB(false);
+  }, sx: { flex: 2 } }, "\uFF0B Simpan Bahan"))), ["utama", "tambahan", "pendukung"].map((kat) => {
+    const ks = KS[kat];
+    const bk = bahan.filter((b) => {
+      const km = b.kat === kat;
+      const um = fB === "semua" ? true : b.untuk === fB || b.untuk === "semua";
+      return km && um;
+    });
+    if (!bk.length) return null;
+    return /* @__PURE__ */ React.createElement("div", { key: kat, style: { marginBottom: 16 } }, /* @__PURE__ */ React.createElement("div", { style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 8,
+      background: ks.bg,
+      border: `1px solid ${ks.br}`,
+      borderRadius: 12,
+      padding: "8px 12px"
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: ks.c } }, ks.ico, " ", ks.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.dm } }, bk.filter((b) => b.on).length, "/", bk.length, " aktif")), bk.map((b) => /* @__PURE__ */ React.createElement(BahanRow, { key: b.id, b, onUpd: (k, v) => updBahan(b.id, k, v), onDel: () => setBahan((x) => x.filter((i) => i.id !== b.id)) })));
+  }), bahan.some((b) => b.on && b.qty > 0) && /* @__PURE__ */ React.createElement(Card, { sx: { background: JBL, border: `1px solid ${JB}33` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: JBD, marginBottom: 10 } }, "Estimasi Biaya Bahan / Molen"), [{ g: "\u{1F9F1} Paving", f: (b) => b.on && (b.untuk === "semua" || b.untuk === "paving") }, { g: "\u2B55 Buis/Beton", f: (b) => b.on && (b.untuk === "semua" || b.untuk === "buis") }].map(({ g, f }) => {
+    const bk = bahan.filter(f).filter((b) => b.qty > 0);
+    if (!bk.length) return null;
+    const total = bk.reduce((s, b) => s + b.harga * b.qty, 0);
+    return /* @__PURE__ */ React.createElement("div", { key: g, style: { background: C.c1, borderRadius: 12, padding: "10px 12px", marginBottom: 8 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: C.t2, marginBottom: 7 } }, g), bk.map((b) => /* @__PURE__ */ React.createElement("div", { key: b.id, style: { display: "flex", justifyContent: "space-between", padding: "2px 0" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: C.mt } }, b.nama, " (", b.qty, " ", b.satuan, ")"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, color: (KS[b.kat] || KS.pendukung).c, fontWeight: 600 } }, rp(b.harga * b.qty)))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", borderTop: `1px solid ${C.br}`, paddingTop: 6, marginTop: 6 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, fontWeight: 700, color: JBD } }, "Total/molen"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 13, fontWeight: 800, color: JBD } }, rp(total))));
+  }))), tab === "master" && /* @__PURE__ */ React.createElement("div", { className: "rise" }, /* @__PURE__ */ React.createElement(Alert, { type: "info" }, "Klik ", /* @__PURE__ */ React.createElement("b", null, "\u270E"), " untuk edit. ", /* @__PURE__ */ React.createElement("b", null, "\u2715"), " untuk hapus. Tambah produk baru bebas kapan saja."), /* @__PURE__ */ React.createElement(Sec, { title: `Master Paving Block \u2014 ${pavP.length} produk`, hi: true, open: true }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.mt } }, pavP.length, " produk"), /* @__PURE__ */ React.createElement(Btn, { v: "pri", sm: true, onClick: () => setShowAP((x) => !x) }, showAP ? "\u2715 Tutup" : "\uFF0B Tambah Paving")), showAP && /* @__PURE__ */ React.createElement("div", { style: { background: JBL, border: `1px solid ${JB}33`, borderRadius: 14, padding: "12px", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: JBD, marginBottom: 10 } }, "\uFF0B Model Paving Baru"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama", val: fPn.n, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { n: v })), ph: "Bata K350 6cm", sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Group", val: fPn.g, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { g: v })), sm: true }), /* @__PURE__ */ React.createElement(Sel, { label: "Mutu", val: fPn.m, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { m: v })), opts: MUTU_OPTS, sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Tebal", val: fPn.t, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { t: v })), ph: "6cm", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "pcs/m\xB2", val: fPn.p, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { p: nv(v) })), suf: "pcs", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Borongan TK/biji", val: fPn.b, set: (v) => setFPn((x) => __spreadProps(__spreadValues({}, x), { b: nv(v) })), pre: "Rp", sm: true })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement(Btn, { onClick: () => setShowAP(false), sx: { flex: 1, background: C.c2, color: C.t2 } }, "Batal"), /* @__PURE__ */ React.createElement(Btn, { v: "pri", onClick: () => {
+    if (!fPn.n) return alert("Isi nama.");
+    setPavP((p) => [...p, __spreadProps(__spreadValues({}, fPn), { id: uid(), j: "paving" })]);
+    setFPn({ n: "", g: "Bata", m: "K225", t: "6cm", p: 50, b: 0 });
+    setShowAP(false);
+  }, sx: { flex: 2 } }, "\uFF0B Simpan"))), [...new Set(pavP.map((p) => p.g))].map((g) => /* @__PURE__ */ React.createElement("div", { key: g, style: { marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: JBD, marginBottom: 6 } }, g), pavP.filter((p) => p.g === g).map((prod) => /* @__PURE__ */ React.createElement(PavingRow, { key: prod.id, prod, onUpd: (k, v) => updPav(prod.id, k, v), onDel: () => delPav(prod.id) }))))), /* @__PURE__ */ React.createElement(Sec, { title: `Master Buis & Beton \u2014 ${buisP.length} produk`, open: false }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.mt } }, buisP.length, " produk"), /* @__PURE__ */ React.createElement(Btn, { v: "bl", sm: true, onClick: () => setShowABu((x) => !x) }, showABu ? "\u2715 Tutup" : "\uFF0B Tambah Buis/Beton")), showABu && /* @__PURE__ */ React.createElement("div", { style: { background: JBL, border: `1px solid ${JB}33`, borderRadius: 14, padding: "12px", marginBottom: 10 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: JBD, marginBottom: 10 } }, "\uFF0B Produk Buis/Beton Baru"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 6 } }, /* @__PURE__ */ React.createElement(TInp, { label: "Nama", val: fBun.n, set: (v) => setFBun((x) => __spreadProps(__spreadValues({}, x), { n: v })), ph: "Buis Beton 45\xD7100", sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Group", val: fBun.g, set: (v) => setFBun((x) => __spreadProps(__spreadValues({}, x), { g: v })), sm: true }), /* @__PURE__ */ React.createElement(TInp, { label: "Ukuran", val: fBun.u, set: (v) => setFBun((x) => __spreadProps(__spreadValues({}, x), { u: v })), ph: "\xD845\xD7100cm", sm: true }), /* @__PURE__ */ React.createElement(NInp, { label: "Borongan TK/biji", val: fBun.b, set: (v) => setFBun((x) => __spreadProps(__spreadValues({}, x), { b: nv(v) })), pre: "Rp", sm: true })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8 } }, /* @__PURE__ */ React.createElement(Btn, { onClick: () => setShowABu(false), sx: { flex: 1, background: C.c2, color: C.t2 } }, "Batal"), /* @__PURE__ */ React.createElement(Btn, { v: "pri", onClick: () => {
+    if (!fBun.n) return alert("Isi nama.");
+    setBuisP((p) => [...p, __spreadProps(__spreadValues({}, fBun), { id: uid(), j: "buis" })]);
+    setFBun({ n: "", g: "Buis Beton", u: "", b: 0 });
+    setShowABu(false);
+  }, sx: { flex: 2 } }, "\uFF0B Simpan"))), [...new Set(buisP.map((p) => p.g))].map((g) => /* @__PURE__ */ React.createElement("div", { key: g, style: { marginBottom: 12 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 12, fontWeight: 700, color: JBD, marginBottom: 6 } }, g), buisP.filter((p) => p.g === g).map((prod) => /* @__PURE__ */ React.createElement(BuisRow, { key: prod.id, prod, onUpd: (k, v) => updBuis(prod.id, k, v), onDel: () => delBuis(prod.id) })))))), tab === "biaya" && /* @__PURE__ */ React.createElement("div", { className: "rise" }, /* @__PURE__ */ React.createElement(Alert, { type: "info" }, "Harga bahan baku diatur di tab ", /* @__PURE__ */ React.createElement("b", null, "\u2697\uFE0F Bahan"), ". Di sini: TK harian dan overhead produksi."), /* @__PURE__ */ React.createElement(Sec, { title: "TK Harian (Non-Borongan)", badge: `${tkH.filter((t) => t.on).length} aktif`, hi: true, open: true }, tkH.map((t) => /* @__PURE__ */ React.createElement("div", { key: t.id, style: {
+    background: C.c1,
+    border: `1px solid ${C.br}`,
+    borderRadius: 14,
+    padding: "11px 13px",
+    marginBottom: 7,
+    boxShadow: "0 1px 4px rgba(66,133,244,.06)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 80px 36px", gap: 8, alignItems: "center", marginBottom: 8 } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      value: t.nama,
+      onChange: (e) => updTKH(t.id, "nama", e.target.value),
+      style: { background: C.c2, border: `1px solid ${C.br}`, borderRadius: 10, color: C.tx, padding: "8px 12px", fontSize: 13, outline: "none" }
+    }
+  ), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: t.per,
+      onChange: (e) => updTKH(t.id, "per", e.target.value),
+      style: { background: C.c2, border: `1px solid ${C.br}`, borderRadius: 10, color: C.t2, padding: "8px 6px", fontSize: 12, outline: "none" }
+    },
+    ["hari", "minggu", "bulan"].map((p) => /* @__PURE__ */ React.createElement("option", { key: p, value: p }, "/", p))
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setTKH((x) => x.filter((i) => i.id !== t.id)),
+      style: { background: C.rdl, border: "none", cursor: "pointer", borderRadius: 10, padding: "7px", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center" }
+    },
+    /* @__PURE__ */ React.createElement(IcoTrash, { size: 14 })
+  )), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 8, alignItems: "center", marginBottom: t.per === "biji" ? 6 : 0 } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, position: "relative" } }, /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontSize: 12, color: C.dm, pointerEvents: "none" } }, "Rp"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "text",
+      inputMode: "decimal",
+      value: t.harga || "",
+      onChange: (e) => {
+        const v = e.target.value;
+        if (v === "" || /^\d*\.?\d*$/.test(v)) updTKH(t.id, "harga", v);
+      },
+      style: { background: C.c2, border: `1.5px solid ${C.br}`, borderRadius: 12, color: C.tx, padding: "9px 12px 9px 28px", fontSize: 13, width: "100%", outline: "none" },
+      onFocus: (e) => {
+        e.target.style.borderColor = JB;
+      },
+      onBlur: (e) => {
+        e.target.style.borderColor = C.br;
+      }
+    }
+  )), /* @__PURE__ */ React.createElement(Tog, { on: t.on, set: () => updTKH(t.id, "on") })))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 } }, /* @__PURE__ */ React.createElement(Btn, { v: "gn", sm: true, onClick: () => setTKH((t) => [...t, { id: uid(), nama: "TK Baru", harga: 0, per: "hari", on: true, jumlahBiji: 0 }]) }, "\uFF0B Tambah TK"))), /* @__PURE__ */ React.createElement(Sec, { title: "Overhead Produksi", badge: `${oh.length}`, open: false }, oh.map((o) => /* @__PURE__ */ React.createElement("div", { key: o.id, style: {
+    background: C.c1,
+    border: `1px solid ${C.br}`,
+    borderRadius: 14,
+    padding: "11px 13px",
+    marginBottom: 7,
+    boxShadow: "0 1px 4px rgba(66,133,244,.06)"
+  } }, /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 80px 36px", gap: 8, alignItems: "center", marginBottom: 8 } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      value: o.nama,
+      onChange: (e) => updOH(o.id, "nama", e.target.value),
+      style: { background: C.c2, border: `1px solid ${C.br}`, borderRadius: 10, color: C.tx, padding: "8px 12px", fontSize: 13, outline: "none" }
+    }
+  ), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: o.per,
+      onChange: (e) => updOH(o.id, "per", e.target.value),
+      style: { background: C.c2, border: `1px solid ${C.br}`, borderRadius: 10, color: C.t2, padding: "8px 6px", fontSize: 12, outline: "none" }
+    },
+    ["hari", "minggu", "bulan"].map((p) => /* @__PURE__ */ React.createElement("option", { key: p, value: p }, "/", p))
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setOH((x) => x.filter((i) => i.id !== o.id)),
+      style: { background: C.rdl, border: "none", cursor: "pointer", borderRadius: 10, padding: "7px", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center" }
+    },
+    /* @__PURE__ */ React.createElement(IcoTrash, { size: 14 })
+  )), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", fontSize: 12, color: C.dm, pointerEvents: "none" } }, "Rp"), /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "number",
+      value: o.harga || "",
+      onChange: (e) => updOH(o.id, "harga", e.target.value),
+      style: { background: C.c2, border: `1.5px solid ${C.br}`, borderRadius: 12, color: C.tx, padding: "9px 12px 9px 28px", fontSize: 13, width: "100%", outline: "none" },
+      onFocus: (e) => {
+        e.target.style.borderColor = JB;
+      },
+      onBlur: (e) => {
+        e.target.style.borderColor = C.br;
+      }
+    }
+  )))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 } }, /* @__PURE__ */ React.createElement(Btn, { v: "gn", sm: true, onClick: () => setOH((o) => [...o, { id: uid(), nama: "Overhead Baru", harga: 0, per: "hari" }]) }, "\uFF0B Tambah"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 12, color: C.or, fontWeight: 600 } }, "Total/hari: ", rp(oh.reduce((s, o) => {
+    const h = nv(o.harga);
+    return s + (o.per === "minggu" ? h / 6 : o.per === "bulan" ? h / 26 : h);
+  }, 0))))))));
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+}catch(e){document.getElementById('err').style.display='block';document.getElementById('err').textContent='JS ERROR:\n'+e.message+'\n'+e.stack;}
+}
+</script>
+<div id="export-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;padding:16px;box-sizing:border-box;">
+  <div style="background:#fff;border-radius:18px;padding:16px;height:100%;display:flex;flex-direction:column;max-height:100%;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+      <div style="font-size:15px;font-weight:700;color:#1A56DB;">📋 Laporan HPP</div>
+      <button onclick="document.getElementById('export-modal').style.display='none'"
+        style="background:#F0F4FF;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;color:#4285F4;cursor:pointer;">
+        ✕ Tutup
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+      <button id="copy-btn" onclick="
+        var ta=document.getElementById('export-ta');
+        ta.select();
+        try{navigator.clipboard.writeText(ta.value).then(function(){
+          document.getElementById('copy-btn').textContent='✅ Tersalin!';
+          setTimeout(function(){document.getElementById('copy-btn').textContent='📋 Copy Semua';},2000);
+        });}catch(e){document.execCommand('copy');
+          document.getElementById('copy-btn').textContent='✅ Tersalin!';
+          setTimeout(function(){document.getElementById('copy-btn').textContent='📋 Copy Semua';},2000);}
+      " style="padding:10px;background:#4285F4;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;">
+        📋 Copy Semua
+      </button>
+      <button id="share-btn" style="padding:10px;background:#30D158;color:#fff;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;">
+        📤 Share File CSV
+      </button>
+    </div>
+    <div style="font-size:10px;color:#9E9E9E;margin-bottom:8px;">
+      Tap Copy → paste ke WhatsApp, Notes, atau Excel
+    </div>
+    <textarea id="export-ta" readonly
+      style="flex:1;width:100%;border:1px solid #DCE4F5;border-radius:12px;padding:12px;
+        font-family:monospace;font-size:11px;color:#333;resize:none;background:#F8FAFF;line-height:1.6;">
+    </textarea>
+  </div>
+</div>
+<script>
+// Hook React export modal to vanilla JS modal
+var _origOpen = window.addEventListener;
+var _csvData = "";
+var _csvFname = "";
+window._showExportModal = function(text, csvContent, fname){
+  document.getElementById('export-ta').value = text || "";
+  if(csvContent){ _csvData = csvContent; _csvFname = fname || "HPP.csv"; }
+  document.getElementById('export-modal').style.display = 'block';
+  // Wire share button
+  var shareBtn = document.getElementById('share-btn');
+  if(shareBtn){
+    shareBtn.onclick = async function(){
+      try {
+        // Try sharing as file (Android Chrome supports this)
+        if(navigator.canShare){
+          const blob = new Blob([_csvData], {type:"text/csv;charset=utf-8"});
+          const file = new File([blob], _csvFname, {type:"text/csv"});
+          if(navigator.canShare({files:[file]})){
+            await navigator.share({files:[file], title:"HPP Jaya Berkah"});
+            return;
+          }
+        }
+        // Fallback: share as text
+        if(navigator.share){
+          await navigator.share({title:"HPP Jaya Berkah", text: document.getElementById('export-ta').value});
+          return;
+        }
+        alert("Share tidak tersedia. Gunakan tombol Copy.");
+      } catch(e){ console.log(e); }
+    };
+  }
+};
+</script>
+</body>
+</html>
