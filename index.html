@@ -210,16 +210,18 @@ function hitungHPPv2(bahanGlobal, qm, tkH, oh, pcsM2, margin, jenis) {
   const totalTKBatch = tkBorPcs * hasil + sortirBatch + tkHarPerBatch;
   const tkBorBatch = tkBorPcs * hasil;
   const detailOH = oh.map((o) => {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f;
     const h = nv(o.harga);
     const perHari = o.per === "minggu" ? h / 6 : o.per === "bulan" ? h / 26 : h;
     const metode = ((_b = (_a = qm.ohOvr) == null ? void 0 : _a[o.id]) == null ? void 0 : _b.metode) || o.metode || "hari";
+    const aktif = ((_d = (_c = qm.ohOvr) == null ? void 0 : _c[o.id]) == null ? void 0 : _d.aktif) !== void 0 ? qm.ohOvr[o.id].aktif : true;
     let beban = 0;
-    if (metode === "hari") beban = perHari / prodHarian * hasil;
-    if (metode === "batch") beban = nv(((_d = (_c = qm.ohOvr) == null ? void 0 : _c[o.id]) == null ? void 0 : _d.nilai) || o.harga);
-    if (metode === "pcs") beban = nv(o.harga) * hasil;
-    if (metode === "m2") beban = nv(o.harga) * (hasil / pcsM2);
-    return __spreadProps(__spreadValues({}, o), { bebanBatch: beban, metodeAktif: metode });
+    if (aktif) {
+      if (metode === "hari") beban = perHari / prodHarian * hasil;
+      if (metode === "batch") beban = nv(((_f = (_e = qm.ohOvr) == null ? void 0 : _e[o.id]) == null ? void 0 : _f.nilai) || o.harga);
+      if (metode === "pcs") beban = nv(o.harga) * hasil;
+    }
+    return __spreadProps(__spreadValues({}, o), { bebanBatch: beban, metodeAktif: metode, aktif });
   });
   const totalOHBatch = detailOH.reduce((s, o) => s + o.bebanBatch, 0);
   const totalBatch = totalBahan + totalTKBatch + totalOHBatch;
@@ -274,60 +276,64 @@ function hitungHPPv2(bahanGlobal, qm, tkH, oh, pcsM2, margin, jenis) {
     pctOH: totalOHBatch / totalBatch * 100
   };
 }
-function buildLaporan(computed, mg) {
-  const tgl = new Date().toLocaleDateString("id-ID");
-  const rp = (v) => "Rp " + Math.round(v||0).toLocaleString("id-ID");
-  let txt = "=== LAPORAN HPP JAYA BERKAH ===\n";
-  txt += "Tanggal: " + tgl + " | Margin: " + mg + "%\n";
-  txt += "================================\n\n";
-  const pv = computed.filter(e => e.prod.j==="paving");
-  const bv = computed.filter(e => e.prod.j!=="paving");
-  if(pv.length){
-    txt += "PAVING BLOCK:\n";
-    pv.forEach((e,i) => {
-      if(!e.r) return;
-      txt += (i+1)+". "+e.prod.n;
-      if(e.prod.m) txt += " ("+e.prod.m+")";
-      txt += "\n";
-      txt += "   HPP/m²: "+rp(e.r.hppM2)+" | HPP/biji: "+rp(e.r.hppPcs)+"\n";
-      txt += "   HJ Aman: "+rp(e.r.hjAman)+"/m² | Margin: "+mg+"%\n";
-      txt += "   Bahan: "+rp(e.r.totalBahan)+" | TK: "+rp(e.r.totalTKBatch)+" | OH: "+rp(e.r.totalOHBatch)+"\n\n";
-    });
-  }
-  if(bv.length){
-    txt += "BUIS BETON:\n";
-    bv.forEach((e,i) => {
-      if(!e.r) return;
-      txt += (i+1)+". "+e.prod.n+"\n";
-      txt += "   HPP/biji: "+rp(e.r.hppPcs)+" | HJ Aman: "+rp(e.r.hjAmanPcs)+"\n\n";
-    });
-  }
-  return txt;
-}
-
 function exportCSV(computed, bahan, mg) {
-  if (!computed.length) return null;
-  const tgl = new Date().toLocaleDateString("id-ID");
-  const q = (v) => '"' + String(v || "").replace(/"/g, '\"\"') + '"';
+  if (!computed.length) return;
+  const tgl = (/* @__PURE__ */ new Date()).toLocaleDateString("id-ID");
+  const q = (v) => '"' + String(v || "").replace(/"/g, '""') + '"';
   const row = (...c) => c.map(q).join(";");
-  const L = [row("LAPORAN HPP - UD. JAYA BERKAH","Tanggal",tgl,"Margin",mg+"%")];
+  const L = [row("LAPORAN HPP - UD. JAYA BERKAH", "Tanggal", tgl, "Margin", mg + "%")];
   L.push(row(""));
-  const pv = computed.filter(e => e.prod.j==="paving");
-  const bv = computed.filter(e => e.prod.j!=="paving");
-  if(pv.length){
-    L.push(row("PAVING BLOCK"));
-    L.push(row("No","Produk","Mutu","Tebal","pcs/m2","HPP/biji","HPP/m2","HJ Aman/m2","Margin%"));
-    pv.forEach((e,i)=>{if(!e.r)return;L.push(row(i+1,e.prod.n,e.prod.m||"",e.prod.t||"",e.prod.p,Math.round(e.r.hppPcs),Math.round(e.r.hppM2),Math.round(e.r.hjAman),mg+"%"));});
+  const pv = computed.filter((e) => e.prod.j === "paving");
+  const bv = computed.filter((e) => e.prod.j !== "paving");
+  if (pv.length) {
+    L.push(row("=== PAVING BLOCK ==="));
+    L.push(row("No", "Produk", "Mutu", "Tebal", "pcs/m2", "Borongan/biji", "HPP/biji", "HPP/m2", "HJ Aman/m2", "Margin%"));
+    pv.forEach((e, i) => L.push(row(i + 1, e.prod.n, e.prod.m || "", e.prod.t || "", e.prod.p, e.borAkt, Math.round(e.r.hppPcs), Math.round(e.r.hppM2), Math.round(e.r.hjAman), e.r.labaPct.toFixed(1) + "%")));
     L.push(row(""));
   }
-  if(bv.length){
-    L.push(row("BUIS BETON"));
-    L.push(row("No","Produk","Ukuran","HPP/biji","HJ Aman","Margin%"));
-    bv.forEach((e,i)=>{if(!e.r)return;L.push(row(i+1,e.prod.n,e.prod.u||"",Math.round(e.r.hppPcs),Math.round(e.r.hjAmanPcs),mg+"%"));});
+  if (bv.length) {
+    L.push(row("=== BUIS BETON ==="));
+    L.push(row("No", "Produk", "Ukuran", "Borongan/biji", "HPP/biji", "HJ Aman", "Margin%"));
+    bv.forEach((e, i) => L.push(row(i + 1, e.prod.n, e.prod.u || "", e.borAkt, Math.round(e.r.hppPcs), Math.round(e.r.hjAman), e.r.labaPct.toFixed(1) + "%")));
+    L.push(row(""));
   }
-  return L.join("\n");
+  L.push(row("=== BAHAN BAKU ==="));
+  L.push(row("Nama", "Kategori", "Untuk", "Satuan", "Harga/Satuan", "Qty/Molen", "Biaya/Molen", "Status"));
+  bahan.forEach((b) => L.push(row(b.nama, b.kat, b.untuk, b.satuan, b.harga, b.qty, Math.round(b.harga * b.qty), b.on ? "Aktif" : "Nonaktif")));
+  const content = "\uFEFF" + L.join("\n");
+  const fname = "HPP_JayaBerkah_" + (/* @__PURE__ */ new Date()).toISOString().slice(0, 10) + ".csv";
+  try {
+    const blob = new Blob([content], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fname;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      try {
+        document.body.removeChild(a);
+      } catch (e) {
+      }
+      URL.revokeObjectURL(url);
+    }, 2e3);
+  } catch (e) {
+    const uri = "data:text/csv;charset=utf-8," + encodeURIComponent(content);
+    const a = document.createElement("a");
+    a.href = uri;
+    a.download = fname;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      try {
+        document.body.removeChild(a);
+      } catch (e2) {
+      }
+    }, 2e3);
+  }
 }
-
 const JB = "#4285F4";
 const JBD = "#1A56DB";
 const JBL = "#EBF2FF";
@@ -915,6 +921,13 @@ function App() {
     var _a;
     return x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { ohOvr: __spreadProps(__spreadValues({}, x.qm.ohOvr), { [oid]: __spreadProps(__spreadValues({}, ((_a = x.qm.ohOvr) == null ? void 0 : _a[oid]) || {}), { [k]: v }) }) }) }) : x;
   }));
+  const togOhAktif = (id, oid) => setItems((s) => s.map((x) => {
+    var _a, _b, _c;
+    if (x.id !== id) return x;
+    const cur = (_b = (_a = x.qm.ohOvr) == null ? void 0 : _a[oid]) == null ? void 0 : _b.aktif;
+    const nowAktif = cur === void 0 ? false : !cur;
+    return __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { ohOvr: __spreadProps(__spreadValues({}, x.qm.ohOvr), { [oid]: __spreadProps(__spreadValues({}, ((_c = x.qm.ohOvr) == null ? void 0 : _c[oid]) || {}), { aktif: nowAktif }) }) }) });
+  }));
   const updDetail = (id, section, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { qm: __spreadProps(__spreadValues({}, x.qm), { showDetail: __spreadProps(__spreadValues({}, x.qm.showDetail), { [section]: v }) }) }) : x));
   const updI = (id, k, v) => setItems((s) => s.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
   const updBahan = (bid, k, v) => setBahan((b) => b.map((x) => x.id === bid ? __spreadProps(__spreadValues({}, x), { [k]: v }) : x));
@@ -936,81 +949,10 @@ function App() {
   };
   const updOH = (id, k, v) => setOH((o) => o.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: k === "harga" ? nv(v) : v }) : x));
   const updTKH = (id, k, v) => setTKH((t) => t.map((x) => x.id === id ? __spreadProps(__spreadValues({}, x), { [k]: k === "harga" ? nv(v) : k === "on" ? !x.on : v }) : x));
-  const [showExport, setShowExport] = React.useState(false);
-  const [exportText, setExportText] = React.useState("");
-  const [copied, setCopied] = React.useState(false);
   const handleCSV = () => {
-    if(!computed.length) return;
-    // Build CSV content
-    const tgl = new Date().toLocaleDateString("id-ID");
-    const q = (v) => '"' + String(v||"").replace(/"/g,'""') + '"';
-    const row = (...c) => c.map(q).join(",");
-    const L = [];
-    L.push(row("LAPORAN HPP - UD. JAYA BERKAH"));
-    L.push(row("Tanggal",tgl,"Margin",mg+"%"));
-    L.push(row(""));
-    const pv = computed.filter(e=>e.prod.j==="paving");
-    const bv = computed.filter(e=>e.prod.j!=="paving");
-    if(pv.length){
-      L.push(row("PAVING BLOCK"));
-      L.push(row("No","Produk","Mutu","Tebal","pcs/m2","Hasil/Batch","HPP/biji","HPP/m2","HJ Aman/m2","Bahan/batch","TK/batch","OH/batch","Margin%"));
-      pv.forEach((e,i)=>{
-        if(!e.r)return;
-        L.push(row(i+1,e.prod.n,e.prod.m||"",e.prod.t||"",e.prod.p,e.r.hasil,
-          Math.round(e.r.hppPcs),Math.round(e.r.hppM2),Math.round(e.r.hjAman),
-          Math.round(e.r.totalBahan),Math.round(e.r.totalTKBatch),Math.round(e.r.totalOHBatch),mg+"%"));
-      });
-      L.push(row(""));
-    }
-    if(bv.length){
-      L.push(row("BUIS BETON"));
-      L.push(row("No","Produk","Ukuran","Hasil/Batch","HPP/biji","HJ Aman","Bahan/batch","TK/batch","OH/batch","Margin%"));
-      bv.forEach((e,i)=>{
-        if(!e.r)return;
-        L.push(row(i+1,e.prod.n,e.prod.u||"",e.r.hasil,
-          Math.round(e.r.hppPcs),Math.round(e.r.hjAmanPcs),
-          Math.round(e.r.totalBahan),Math.round(e.r.totalTKBatch),Math.round(e.r.totalOHBatch),mg+"%"));
-      });
-      L.push(row(""));
-    }
-    L.push(row("BAHAN BAKU"));
-    L.push(row("Nama","Kategori","Satuan","Harga/Satuan","Qty/Batch","Status"));
-    bahan.forEach(b=>L.push(row(b.nama,b.kat,b.satuan,b.harga,b.qty,b.on?"Aktif":"Nonaktif")));
-
-    const csv = "\uFEFF" + L.join("\n");
-    const fname = "HPP_JayaBerkah_" + new Date().toISOString().slice(0,10) + ".csv";
-
-    // Method 1: Blob + click (works on some Android)
-    try {
-      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = fname;
-      a.style.cssText = "position:fixed;top:-100px";
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},3000);
-    } catch(e){}
-
-    // Method 2: Always also show the modal with copy option as backup
-    const laporan = buildLaporan(computed, mg);
-    if(window._showExportModal) window._showExportModal(laporan, csv, fname);
+    exportCSV(computed, bahan, mg);
     setCsvOK(true);
-    setTimeout(()=>setCsvOK(false),5000);
-  };
-  const handleCopy = () => {
-    if(navigator.clipboard) {
-      navigator.clipboard.writeText(exportText).then(()=>{setCopied(true);setTimeout(()=>setCopied(false),2000);});
-    } else {
-      // fallback: select textarea
-      const ta = document.getElementById('export-ta');
-      if(ta){ta.select();document.execCommand('copy');setCopied(true);setTimeout(()=>setCopied(false),2000);}
-    }
-  };
-  const handleShare = () => {
-    if(navigator.share){
-      navigator.share({title:'Laporan HPP Jaya Berkah', text: exportText});
-    }
+    setTimeout(() => setCsvOK(false), 3e3);
   };
   const pavGrps = ["Semua", ...[...new Set(pavP.map((p) => p.g))]];
   const buiGrps = ["Semua", ...[...new Set(buisP.map((p) => p.g))]];
@@ -1510,13 +1452,29 @@ function App() {
       } }, "\u26A0\uFE0F TERLALU TINGGI"))),
       /* @__PURE__ */ React.createElement(IcoChevron, { up: !!((_h = e.qm.showDetail) == null ? void 0 : _h.oh), color: "#B85C00", size: 14 })
     ), ((_i = e.qm.showDetail) == null ? void 0 : _i.oh) && /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 13px", background: C.orl } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 10, color: "#B85C00", marginBottom: 8, lineHeight: 1.5 } }, "Metode: ", /* @__PURE__ */ React.createElement("b", null, "hari"), " = dibagi produksi/hari \xD7 hasil batch | ", /* @__PURE__ */ React.createElement("b", null, "batch"), " = langsung per batch"), oh.map((o) => {
-      var _a2, _b2;
+      var _a2, _b2, _c2, _d2;
       const ph = nv(e.qm.prodHarian) || nv(prodH) || 1;
       const h = nv(o.harga);
       const perHari = o.per === "minggu" ? h / 6 : o.per === "bulan" ? h / 26 : h;
       const metode = ((_b2 = (_a2 = e.qm.ohOvr) == null ? void 0 : _a2[o.id]) == null ? void 0 : _b2.metode) || o.metode || "hari";
-      const beban = hasHasil ? metode === "hari" ? perHari / ph * r.hasil : h : 0;
-      return /* @__PURE__ */ React.createElement("div", { key: o.id, style: { padding: "6px 0", borderBottom: `1px solid ${C.or}22` } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 6, marginBottom: 2 } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: 12, color: C.tx } }, o.nama), /* @__PURE__ */ React.createElement(
+      const aktif = ((_d2 = (_c2 = e.qm.ohOvr) == null ? void 0 : _c2[o.id]) == null ? void 0 : _d2.aktif) !== void 0 ? e.qm.ohOvr[o.id].aktif : true;
+      const beban = hasHasil && aktif ? metode === "hari" ? perHari / ph * r.hasil : h : 0;
+      return /* @__PURE__ */ React.createElement("div", { key: o.id, style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "7px 0",
+        borderBottom: `1px solid ${C.or}22`,
+        opacity: aktif ? 1 : 0.4
+      } }, /* @__PURE__ */ React.createElement(
+        "input",
+        {
+          type: "checkbox",
+          checked: aktif,
+          onChange: () => togOhAktif(e.id, o.id),
+          style: { width: 16, height: 16, cursor: "pointer", accentColor: C.or, flexShrink: 0 }
+        }
+      ), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: 12, color: aktif ? C.tx : C.dm } }, o.nama), aktif && /* @__PURE__ */ React.createElement(
         "select",
         {
           value: metode,
@@ -1534,7 +1492,13 @@ function App() {
         /* @__PURE__ */ React.createElement("option", { value: "hari" }, "per hari"),
         /* @__PURE__ */ React.createElement("option", { value: "batch" }, "per batch"),
         /* @__PURE__ */ React.createElement("option", { value: "pcs" }, "per pcs")
-      ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm } }, rp(h), "/", o.per), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 11, fontWeight: 600, color: "#B85C00", minWidth: 70, textAlign: "right" } }, hasHasil ? rp(Math.round(beban)) : "\u2014")));
+      ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, color: C.dm, whiteSpace: "nowrap" } }, rp(h), "/", o.per), /* @__PURE__ */ React.createElement("span", { style: {
+        fontSize: 11,
+        fontWeight: 600,
+        color: aktif ? "#B85C00" : C.dm,
+        minWidth: 65,
+        textAlign: "right"
+      } }, aktif && hasHasil ? rp(Math.round(beban)) : "\u2014"));
     }), hasHasil && /* @__PURE__ */ React.createElement("div", { style: {
       display: "flex",
       justifyContent: "space-between",
@@ -1852,5 +1816,6 @@ window._showExportModal = function(text, csvContent, fname){
   }
 };
 </script>
+
 </body>
 </html>
